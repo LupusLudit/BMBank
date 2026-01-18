@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BMBank</name>
+    </assembly>
+    <members>
+        <member name="T:BMBank.Src.Common.Logger">
+            <summary>
+			Static class used for thread-safe logging.
+			Writes timestamped log entries into per-day log files under the application Log directory.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Common.Logger.GetTodaysFilePath">
+            <summary>
+            Gets the todays log file path.
+            </summary>
+            <returns>Path to the log file (string).</returns>
+        </member>
+        <member name="M:BMBank.Src.Common.Logger.Write(BMBank.Src.Common.LogType,System.String)">
+            <summary>
+            Writes the a passed message (with a specific type) into todays log file.
+            </summary>
+            <param name="type">The type of the message (LogType enum).</param>
+            <param name="message">The specific message to be written into the log file (string).</param>
+        </member>
+        <member name="T:BMBank.Src.Common.SafeExecutor">
+            <summary>
+			Static utility class responsible for safely executing synchronous and asynchronous actions
+			with standardized error handling.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Common.SafeExecutor.Execute(System.Func{System.String})">
+            <summary>
+            Safely executes the specified action.
+            </summary>
+            <param name="action">The action to be executed (in the try block).</param>
+            <returns>
+            Nothing if the action completes successfully; otherwise, the formatted error message (string).
+            </returns>
+        </member>
+        <member name="M:BMBank.Src.Common.SafeExecutor.ExecuteAsync(System.Func{System.Threading.Tasks.Task{System.String}})">
+            <summary>
+            Safely executes an asynchronous action.
+            </summary>
+            <param name="action">The action to be executed (in the try block).</param>
+            <returns>
+            Nothing if the action completes successfully; otherwise, the formatted error message (string).
+            </returns>
+        </member>
+        <member name="M:BMBank.Src.Common.SafeExecutor.LogError(System.Exception)">
+            <summary>
+            Logs the error.
+            </summary>
+            <param name="ex">The exception to be logged.</param>
+        </member>
+        <member name="M:BMBank.Src.Common.SafeExecutor.FormatError(System.String)">
+            <summary>
+            Formats the error message to include the error prefix.
+            The formatted error is used to be displayed to the user.
+            </summary>
+            <param name="errorMessage">The error message.</param>
+            <returns>
+            The formatted error message (string).
+            </returns>
+        </member>
+    </members>
+</doc>

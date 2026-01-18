@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ClassDocumentation>
+
+	<ClassMembers name="Logger">
+		<summary>
+			Static class used for thread-safe logging.
+			Writes timestamped log entries into per-day log files under the application Log directory.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="SafeExecutor">
+		<summary>
+			Static utility class responsible for safely executing synchronous and asynchronous actions
+			with standardized error handling.
+		</summary>
+	</ClassMembers>
+	
+</ClassDocumentation>
