@@ -1,5 +1,8 @@
 ﻿
 using BMBank.Src.App.Commands;
+using BMBank.Src.App.Commands.Interfaces;
+using BMBank.Src.DatabaseInteraction.Core.DAO;
+using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App
 {
@@ -7,11 +10,14 @@ namespace BMBank.Src.App
     {
         private Dictionary<string, ICommand> commands;
 
-        public CommandHandler()
+        public CommandHandler(SqlConnection connection)
         {
+            AccountDAO dao = new AccountDAO(connection);
+
             List<ICommand> commandList = new List<ICommand>
             {
-                new BankCodeCommand()
+                new BankCodeCommand(),
+                new AccountCreateCommand(dao)
             };
 
             commands = commandList.ToDictionary(command => command.Key, command => command);

@@ -1,4 +1,5 @@
-﻿using BMBank.Src.Network;
+﻿using BMBank.Src.App.Commands.Interfaces;
+using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
@@ -10,14 +11,14 @@ namespace BMBank.Src.App.Commands
         {
             if (!string.IsNullOrEmpty(arguments))
             {
-                throw new ArgumentException("BC command does not take any arguments");
+                throw new ArgumentException("BC command does not take any arguments.");
             }
 
             string? ipAddress = IPAddressObtainer.GetLocalIPv4Address();
 
             if (ipAddress == null)
             {
-                throw new InvalidOperationException("No IPv4 address found for the host");
+                throw new InvalidOperationException("No IPv4 address found for the host.");
             }
 
             return $"BC {ipAddress}";

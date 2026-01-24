@@ -18,3 +18,6 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 ### Added on 2026-01-24 by Michal Bielina
 
 - This CHANGELOG.md file to track changes in the project.
+- App.config file for configuration settings.
+- The project database and added the sql script for its creation.
+- Database connection and interaction logic

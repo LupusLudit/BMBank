@@ -1,5 +1,6 @@
 ﻿using BMBank.Src.App;
 using BMBank.Src.Common;
+using Microsoft.Data.SqlClient;
 using System.Net.Sockets;
 using System.Text;
 
@@ -11,10 +12,10 @@ namespace BMBank.Src.Network
         private CommandHandler commandHandler;
         private const int timeoutInMs = 5000;
 
-        public ClientSession(TcpClient client)
+        public ClientSession(TcpClient client, SqlConnection connection)
         {
             this.client = client;
-            commandHandler = new CommandHandler();
+            commandHandler = new CommandHandler(connection);
         }
 
         public async Task HandleAsync(CancellationToken serverCancellationToken)

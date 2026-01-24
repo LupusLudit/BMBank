@@ -1,5 +1,7 @@
 ﻿using BMBank.Src.Common;
 using BMBank.Src.Network;
+using BookOrg.Src.Logic.Connection;
+using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src
 {
@@ -7,29 +9,50 @@ namespace BMBank.Src
     {
         static async Task Main(string[] args)
         {
-            string? localIp = IPAddressObtainer.GetLocalIPv4Address();
-
-            if (localIp != null)
+            try
             {
-                string startingMessage = $"BMBank server running at: {localIp}";
-                Console.WriteLine(startingMessage);
-                Logger.Info(startingMessage);
+                IConnectionFactory connectionFactory = new SqlServerConnectionFactory();
 
-                Server server = new Server(65526);
+                Console.WriteLine("Attempting to connect to the database...");
+                SqlConnection? connection = await Task.Run(() => connectionFactory.CreateConnection());
 
-                Console.CancelKeyPress += (sender, eventArgs) =>
+                if (connection == null)
                 {
-                    eventArgs.Cancel = true;
-                    Logger.Info("Shutting down BMBank Server...");
-                    server.Stop();
-                };
+                    Logger.Error("Failed to connect to the database.");
+                    Console.WriteLine($"Failed to connect to the database.");
+                    return;
+                }
 
-                await server.StartAsync();
+                string? localIp = IPAddressObtainer.GetLocalIPv4Address();
+
+                if (localIp == null)
+                {
+                    Logger.Error("Couldn't obtain local ip address.");
+                    Console.WriteLine("Couldn't obtain local ip address, server was not started.");
+                    return;
+                }
+                else
+                {
+                    string startingMessage = $"BMBank server running at: {localIp}";
+                    Console.WriteLine(startingMessage);
+                    Logger.Info(startingMessage);
+
+                    Server server = new Server(65526, connection);
+
+                    Console.CancelKeyPress += (sender, eventArgs) =>
+                    {
+                        eventArgs.Cancel = true;
+                        Logger.Info("Shutting down BMBank Server...");
+                        server.Stop();
+                    };
+
+                    await server.StartAsync();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Logger.Error("Couldn't obtain local ip address.");
-                Console.WriteLine("Couldn't obtain local ip address, server was not started.");
+                Logger.Error($"Fatal error: {ex.Message}");
+                Console.WriteLine($"Fatal error: {ex.Message}");
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using BMBank.Src.Common;
+using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Sockets;
 
@@ -8,10 +9,13 @@ namespace BMBank.Src.Network
     {
         private TcpListener listener;
         private CancellationTokenSource cancellationTokenSource;
+        private SqlConnection connection;
 
-        public Server(int port)
+        public Server(int port, SqlConnection connection)
         {
             listener = new TcpListener(System.Net.IPAddress.Any, port);
+            this.connection = connection;
+
             cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -29,7 +33,7 @@ namespace BMBank.Src.Network
                     await Task.Run(
                         () =>
                         {
-                            ClientSession session = new ClientSession(client);
+                            ClientSession session = new ClientSession(client, connection);
                             return session.HandleAsync(cancellationTokenSource.Token);
                         },
                         cancellationTokenSource.Token

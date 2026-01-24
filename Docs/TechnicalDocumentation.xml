@@ -63,5 +63,32 @@
             The formatted error message (string).
             </returns>
         </member>
+        <member name="T:BookOrg.Src.Logic.Connection.IConnectionFactory">
+            <summary>
+			Interface for defining a factory class for a specific database connection creation.
+		</summary>
+        </member>
+        <member name="T:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory">
+            <summary>
+			Factory class for creating and initializing connections to the SQL Server database
+			using configuration settings.
+		</summary>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory.CreateConnection">
+            <summary>
+            Creates and opens a connection to the SQL Server database.
+            </summary>
+            <returns>An open SqlConnection object, or null if the connection failed.</returns>
+        </member>
+        <member name="M:BookOrg.Src.Logic.Connection.SqlServerConnectionFactory.ValidateConfig(System.String,System.String,System.String,System.String)">
+            <summary>
+            Validates the database configuration parameters.
+            </summary>
+            <param name="ds">The data source (server address).</param>
+            <param name="db">The database name.</param>
+            <param name="user">The user login ID.</param>
+            <param name="pwd">The user password.</param>
+            <exception cref="T:System.ApplicationException">Thrown when configuration is missing or invalid.</exception>
+        </member>
     </members>
 </doc>

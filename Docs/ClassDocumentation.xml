@@ -14,5 +14,43 @@
 			with standardized error handling.
 		</summary>
 	</ClassMembers>
+
+	<ClassMembers name="IConnectionFactory">
+		<summary>
+			Interface for defining a factory class for a specific database connection creation.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="SqlServerConnectionFactory">
+		<summary>
+			Factory class for creating and initializing connections to the SQL Server database
+			using configuration settings.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="IDBEntity">
+		<summary>
+			Interface defining the base for database entities, ensuring they possess a unique identifier.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="Account">
+		<summary>
+			
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="DAOBase">
+		<summary>
+			Abstract base class for Data Access Objects.
+			Provides a common structure and helper methods for database operations on entities.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AccountDAO">
+		<summary>
+
+		</summary>
+	</ClassMembers>
 	
 </ClassDocumentation>

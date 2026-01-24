@@ -1,4 +1,4 @@
-﻿namespace BMBank.Src.App.Commands
+﻿namespace BMBank.Src.App.Commands.Interfaces
 {
     public interface ICommand
     {
