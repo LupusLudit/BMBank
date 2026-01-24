@@ -42,8 +42,15 @@ namespace BMBank.Src.Network
                         }
 
                         string? request = await readTask;
-                        if (request == null) break;
-                        if (string.IsNullOrWhiteSpace(request)) continue;
+
+                        if (request == null)
+                        {
+                            break;
+                        }
+                        if (string.IsNullOrWhiteSpace(request))
+                        {
+                            continue;
+                        }
 
                         Logger.Info($"Received request from [{clientIp}]: {request}");
 

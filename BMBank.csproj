@@ -9,4 +9,10 @@
     <DocumentationFile>C:\Users\micha\Projects\school\pv\c#\c4a\special\projects\BMBank\Docs\TechnicalDocumentation.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Sql\" />
+    <Folder Include="Src\DatabaseInteraction\Core\" />
+    <Folder Include="Src\DatabaseInteraction\Connection\" />
+  </ItemGroup>
+
 </Project>
