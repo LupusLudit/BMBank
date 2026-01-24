@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace BMBank.Src.DatabaseInteraction.Core.DBEntities
 {
     public class Account : IDBEntity

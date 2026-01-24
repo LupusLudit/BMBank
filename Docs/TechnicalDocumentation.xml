@@ -63,6 +63,38 @@
             The formatted error message (string).
             </returns>
         </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DAO.DAOBase`1">
+            <summary>
+			Abstract base class for Data Access Objects.
+			Provides a common structure and helper methods for database operations on entities.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.DAOBase`1.CreateCommand(System.String)">
+            <summary>
+            Creates a new SqlCommand using the current connection.
+            </summary>
+            <param name="query">The SQL query string.</param>
+            <returns>A configured SqlCommand object.</returns>
+        </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DBEntities.IDBEntity">
+            <summary>
+			Interface defining the base for database entities, ensuring they possess a unique identifier.
+		</summary>
+        </member>
+        <member name="P:BMBank.Src.DatabaseInteraction.Core.DBEntities.IDBEntity.ID">
+            <summary>
+            Gets or sets the entity identifier.
+            </summary>
+            <value>
+            The entity identifier.
+            </value>
+            <remarks>
+            The ID property should be a non-negative integer that
+            uniquely identifies the entity within the database.
+            If it is set to zero, it indicates that the entity has not yet
+            been added to the database and that it will be assigned a valid ID upon insertion.
+            </remarks>>
+        </member>
         <member name="T:BookOrg.Src.Logic.Connection.IConnectionFactory">
             <summary>
 			Interface for defining a factory class for a specific database connection creation.

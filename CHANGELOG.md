@@ -11,13 +11,33 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ### Added on 2026-01-18 by Michal Bielina
 
-- Initial setup for the project structure and documentation.
+- Initial setup for the project structure
+- Documentation folder created:
+	- Class documentation to the ClassDocumentation.xml file
+	- Technical documentation to the TechnicalDocumentation.md file
 - Basic functionality - user is capable to connect to the bank server.
-- Command for displaying the bank code to the user.
+	- App (which includes the commands)
+		- Commands (includes commands themselves)
+	- Common (shared code used - or which could be used - in multiple files)
+	- Network (client-server communication)
+- Command for displaying the bank code to the user (BC)
 
 ### Added on 2026-01-24 by Michal Bielina
 
 - This CHANGELOG.md file to track changes in the project.
 - App.config file for configuration settings.
-- The project database and added the sql script for its creation.
-- Database connection and interaction logic
+- More documentation to the ClassDocumentation.xml file
+- The project database and added the sql script for its creation (provided in the Sql folder)
+- Database connection and interaction logic (DatabaseInteraction folder)
+	- Connection
+	- Core
+		- DAO
+		- DBEntities
+- All compulsory commands:
+	- Account create (AC)
+	- Account deposit (AD)
+	- Account withdraw (AW)
+	- Account balance (AB)
+	- Account remove (AR)
+	- Bank (total) amount (BA)
+	- Bank number (of clients) (BN)

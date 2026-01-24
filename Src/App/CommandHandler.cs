@@ -2,6 +2,7 @@
 using BMBank.Src.App.Commands;
 using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
+using BookOrg.Src.Logic.Connection;
 using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App
@@ -17,7 +18,13 @@ namespace BMBank.Src.App
             List<ICommand> commandList = new List<ICommand>
             {
                 new BankCodeCommand(),
-                new AccountCreateCommand(dao)
+                new AccountCreateCommand(dao),
+                new AccountDepositCommand(dao),
+                new AccountWithdrawCommand(dao),
+                new AccountBalanceCommand(dao),
+                new AccountRemoveCommand(dao),
+                new BankAmountCommand(dao),
+                new BankClientCountCommand(dao)
             };
 
             commands = commandList.ToDictionary(command => command.Key, command => command);

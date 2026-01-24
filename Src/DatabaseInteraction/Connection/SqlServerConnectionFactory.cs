@@ -28,7 +28,8 @@ namespace BookOrg.Src.Logic.Connection
                 $"Database={database};" +
                 $"User Id={login};" +
                 $"Password={password};" +
-                "TrustServerCertificate=True;";
+                "TrustServerCertificate=True;" +
+                "Trusted_Connection=True;";
 
             var connectionAttempt = new SqlConnection(connectionString);
             connectionAttempt.Open();
@@ -49,9 +50,9 @@ namespace BookOrg.Src.Logic.Connection
         private void ValidateConfig(string? ds, string? db, string? user, string? pwd)
         {
             if (string.IsNullOrWhiteSpace(ds) || string.IsNullOrWhiteSpace(db) ||
-                string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pwd))
+                string.IsNullOrWhiteSpace(user) || pwd == null)
             {
-                throw new ApplicationException("Database configuration is missing or invalid.");
+                throw new ApplicationException("Database configuration is missing or invalid");
             }
         }
     }

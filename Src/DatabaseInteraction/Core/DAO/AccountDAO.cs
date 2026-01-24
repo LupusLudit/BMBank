@@ -73,7 +73,7 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
 
         public long GetTotalAmount()
         {
-            SqlCommand command = CreateCommand("SELECT total_amount FROM view_bank_total_amount");
+            SqlCommand command = CreateCommand("select total_amount from view_bank_total_amount");
             var result = command.ExecuteScalar();
 
             if(result != DBNull.Value && result != null)
@@ -88,7 +88,7 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
 
         public int GetClientCount()
         {
-            SqlCommand command = CreateCommand("SELECT client_count FROM view_bank_client_count");
+            SqlCommand command = CreateCommand("select client_count from view_bank_client_count");
             var result = command.ExecuteScalar();
 
             if (result != DBNull.Value && result != null)

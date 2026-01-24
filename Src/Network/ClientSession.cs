@@ -38,8 +38,9 @@ namespace BMBank.Src.Network
 
                         if (completedTask == timeoutTask)
                         {
+                            // TODO: Create real timeout handling
                             Logger.Warning($"Session timeout for [{clientIp}]");
-                            await writer.WriteLineAsync("Session Timeout");
+                            // await writer.WriteLineAsync("Session Timeout");
                         }
 
                         string? request = await readTask;

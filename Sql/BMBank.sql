@@ -1,5 +1,4 @@
-create database BMBank;
-use BMBank;
+use bielina;
 
 -----------BASE STRUCTURE-----------
 
@@ -12,7 +11,7 @@ that will cause errors when attempting to recycle account numbers of already clo
 The active_account_number_index ensures that the account_number for the active accounts is unique.
 */
 create table account (
-id int identity(1,1) primary key,
+id int primary key identity(1,1),
 account_number int not null check (account_number between 10000 and 99999),
 balance bigint not null default 0 check (balance >= 0),
 is_active bit not null default 1,
@@ -20,7 +19,7 @@ created_at_date datetime2 not null default sysutcdatetime(),
 closed_at_date datetime2 null
 );
 
--- Sequence for issuing new account numbers (10000–99999)
+-- Sequence for issuing new account numbers (10000ï¿½99999)
 create sequence account_number_sequence
 as int
 start with 10000 increment by 1
@@ -145,7 +144,7 @@ begin
 end;
 
 -- View for obtaining the bank total amount (BA command)
-create view vieww_bank_total_amount
+create view view_bank_total_amount
 as
 select sum(balance) as total_amount
 from account
@@ -180,3 +179,5 @@ as
 select account_number, closed_at_date
 from account
 where is_active = 0;
+
+select * from account;
