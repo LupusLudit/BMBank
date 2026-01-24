@@ -41,3 +41,8 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Account remove (AR)
 	- Bank (total) amount (BA)
 	- Bank number (of clients) (BN)
+
+## [1.1.1] - 2026-01-24 by Michal Bielina
+
+### Added
+- The first BMBank release after the initial development phase to GitHub.
