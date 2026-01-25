@@ -3,7 +3,7 @@ using BMBank.Src.DatabaseInteraction.Core.DAO;
 using BMBank.Src.Network;
 namespace BMBank.Src.App.Commands
 {
-    public class AccountDepositCommand: ICommand, IAccountInteractionCommand
+    public class AccountDepositCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "AD";
         public AccountDAO DAO { get; }
@@ -24,30 +24,32 @@ namespace BMBank.Src.App.Commands
             string[] accountParts = argumentParts[0].Split('/');
 
             if (accountParts.Length != 2)
-            { 
+            {
                 throw new FormatException("Invalid account format.");
             }
 
-            if (!int.TryParse(accountParts[0], out int accountNumber)) 
+            if (!int.TryParse(accountParts[0], out int accountNumber))
             {
                 throw new FormatException("Invalid account number.");
             }
             string targetIp = accountParts[1];
 
             if (!long.TryParse(argumentParts[1], out long amount))
-            { 
+            {
                 throw new FormatException("Invalid amount.");
             }
 
             string? localIp = IPAddressObtainer.GetLocalIPv4Address();
-            if (targetIp != localIp)
-            { 
-                throw new InvalidOperationException("Invalid ip address provided.");
+            if (targetIp == localIp)
+            {
+                DAO.Deposit(accountNumber, amount);
+                return "AD";
             }
-
-            DAO.Deposit(accountNumber, amount);
-
-            return "AD";
+            else
+            {
+                string originalCommand = $"AD {accountNumber}/{targetIp} {amount}";
+                return BankProxyClient.Forward(targetIp, originalCommand);
+            }
         }
     }
 }

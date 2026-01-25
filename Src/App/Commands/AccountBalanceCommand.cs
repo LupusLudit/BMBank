@@ -28,14 +28,16 @@ namespace BMBank.Src.App.Commands
 
             string? localIp = IPAddressObtainer.GetLocalIPv4Address();
 
-            if (targetIp != localIp)
+            if (targetIp == localIp)
             {
-                throw new InvalidOperationException("Invalid ip address provided.");
+                long balance = DAO.GetBalance(accountNumber);
+                return $"AB {balance}";
             }
-
-            long balance = DAO.GetBalance(accountNumber);
-
-            return $"AB {balance}";
+            else
+            {
+                string originalCommand = $"AB {accountNumber}/{targetIp}";
+                return BankProxyClient.Forward(targetIp, originalCommand);
+            }
         }
     }
 }
