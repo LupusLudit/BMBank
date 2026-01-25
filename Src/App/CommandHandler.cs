@@ -1,5 +1,4 @@
-﻿
-using BMBank.Src.App.Commands;
+﻿using BMBank.Src.App.Commands;
 using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
 using BookOrg.Src.Logic.Connection;
@@ -24,7 +23,8 @@ namespace BMBank.Src.App
                 new AccountBalanceCommand(dao),
                 new AccountRemoveCommand(dao),
                 new BankAmountCommand(dao),
-                new BankClientCountCommand(dao)
+                new BankClientCountCommand(dao),
+                new RobberyPlanCommand()
             };
 
             commands = commandList.ToDictionary(command => command.Key, command => command);
@@ -32,8 +32,8 @@ namespace BMBank.Src.App
 
         public string ProcessCommand(string input)
         {
-            if (string.IsNullOrWhiteSpace(input)) 
-            { 
+            if (string.IsNullOrWhiteSpace(input))
+            {
                 return string.Empty;
             }
 
@@ -58,3 +58,4 @@ namespace BMBank.Src.App
         }
     }
 }
+
