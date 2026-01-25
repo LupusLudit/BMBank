@@ -29,7 +29,7 @@ namespace BookOrg.Src.Logic.Connection
                 $"User Id={login};" +
                 $"Password={password};" +
                 "TrustServerCertificate=True;" +
-                "Trusted_Connection=True;";
+                "Trusted_Connection=True;"; // only for local testing
 
             var connectionAttempt = new SqlConnection(connectionString);
             connectionAttempt.Open();

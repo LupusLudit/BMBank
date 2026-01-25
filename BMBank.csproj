@@ -5,7 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <DocumentationFile>C:\Users\micha\Projects\school\pv\c#\c4a\special\projects\BMBank\Docs\TechnicalDocumentation.xml</DocumentationFile>
   </PropertyGroup>
 
