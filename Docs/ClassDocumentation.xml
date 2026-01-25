@@ -52,5 +52,20 @@
 
 		</summary>
 	</ClassMembers>
+
+	<ClassMembers name="BankNetworkExplorer">
+		<summary>
+			Static utility class to discover other banks in the P2P network.
+			Provides methods to generate IP addresses of potential bank nodes and structure their info.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BankProxyClient">
+		<summary>
+			Static class responsible for forwarding bank commands to other nodes in the P2P network.
+			Scans a range of TCP ports (65525–65535) to locate active bank nodes.
+			Handles timeouts and read/write operations safely.
+		</summary>
+	</ClassMembers>
 	
 </ClassDocumentation>
