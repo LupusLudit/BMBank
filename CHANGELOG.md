@@ -9,7 +9,7 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ## [Unreleased]
 
-### Added on 2026-01-18 by Michal Bielina
+### Added - 2026-01-18 by Michal Bielina
 
 - Initial setup for the project structure
 - Documentation folder created:
@@ -22,7 +22,7 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Network (client-server communication)
 - Command for displaying the bank code to the user (BC)
 
-### Added on 2026-01-24 by Michal Bielina
+### Added - 2026-01-24 by Michal Bielina
 
 - This CHANGELOG.md file to track changes in the project.
 - App.config file for configuration settings.
@@ -46,6 +46,28 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ### Added - 2026-01-24 by Michal Bielina
 - The first BMBank release after the initial development phase to GitHub.
+
+### Added - 2026-01-25 by Pavel Halík
+- Implemented **Essentials Bank Node features**:
+	- AD, AW, AB commands now act as a proxy when the target bank IP is different from the local bank.
+	- Added **BankProxyClient** with TCP/IP scan across ports 65525–65535.
+	- Forwarding commands to other bank nodes using `Forward()` method.
+
+- Implemented **Hacker Bank Node feature – Robbery Plan (RP) command**:
+	- RP &lt;number> computes a robbery plan to reach the specified target amount.
+	- Queries the network for all available banks to get their total money (BA) and number of clients (BN).
+	- Algorithm selects banks to reach the target while minimizing affected clients.
+	- Returns a formatted message with selected banks and number of harmed clients.
+	- Handles empty networks gracefully without blocking or crashing the server.
+
+- Added timeout handling to:
+	- RP command (global timeout for the scan).
+	- Client sessions in `ClientSession` class to prevent hanging connections.
+	- BankProxyClient connections (read/write and connect timeouts).
+
+- Improved network and command handling:
+	- Client sessions now safely terminate on timeout or disconnect.
+	- Parallelization implemented for network scans in RP command (max 10 concurrent connections).
 
 ### Fixed - 2026-01-25 by Michal Bielina
 - Updated the setup.sql so it does not contain any local paths
