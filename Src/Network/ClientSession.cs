@@ -25,43 +25,51 @@ namespace BMBank.Src.Network
 
             try
             {
+                client.ReceiveTimeout = timeoutInMs;
+                client.SendTimeout = timeoutInMs;
+
                 NetworkStream stream = client.GetStream();
 
-                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
-                using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true })
+                using StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                using StreamWriter writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true };
+
+                while (!serverCancellationToken.IsCancellationRequested)
                 {
-                    while (client.Connected && !serverCancellationToken.IsCancellationRequested)
+                    Task<string?> readTask = reader.ReadLineAsync();
+                    Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
+
+                    Task completed = await Task.WhenAny(readTask, timeoutTask);
+
+                    if (completed == timeoutTask)
                     {
-                        Task<string?> readTask = reader.ReadLineAsync();
-                        Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
-                        Task completedTask = await Task.WhenAny(readTask, timeoutTask);
-
-                        if (completedTask == timeoutTask)
-                        {
-                            // TODO: Create real timeout handling
-                            Logger.Warning($"Session timeout for [{clientIp}]");
-                            // await writer.WriteLineAsync("Session Timeout");
-                        }
-
-                        string? request = await readTask;
-
-                        if (request == null)
-                        {
-                            break;
-                        }
-                        if (string.IsNullOrWhiteSpace(request))
-                        {
-                            continue;
-                        }
-
-                        Logger.Info($"Received request from [{clientIp}]: {request}");
-
-                        string response = SafeExecutor.Execute(() => commandHandler.ProcessCommand(request));
-
-                        await writer.WriteLineAsync(response);
+                        Logger.Warning($"Session timeout for [{clientIp}]");
+                        await writer.WriteLineAsync("ER Session timeout");
+                        break;
                     }
-                }
 
+                    string? request = await readTask;
+
+                    if (request == null)
+                    {
+                        Logger.Info($"Client disconnected [{clientIp}]");
+                        break;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(request))
+                        continue;
+
+                    Logger.Info($"Received request from [{clientIp}]: {request}");
+
+                    string response = SafeExecutor.Execute(
+                        () => commandHandler.ProcessCommand(request)
+                    );
+
+                    await writer.WriteLineAsync(response);
+                }
+            }
+            catch (IOException ex)
+            {
+                Logger.Warning($"IO timeout or disconnect [{clientIp}]: {ex.Message}");
             }
             catch (Exception ex)
             {
