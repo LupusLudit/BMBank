@@ -37,7 +37,7 @@ namespace BMBank.Src
                     Console.WriteLine(startingMessage);
                     Logger.Info(startingMessage);
 
-                    Server server = new Server(65526, connection);
+                    Server server = new Server(NetworkConfig.PortFrom, connection);
 
                     Console.CancelKeyPress += (sender, eventArgs) =>
                     {

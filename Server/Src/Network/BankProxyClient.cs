@@ -5,13 +5,11 @@ namespace BMBank.Src.Network;
 
 public static class BankProxyClient
 {
-    private const int PortFrom = 65525;
-    private const int PortTo = 65535;
     private const int Timeout = 5000;
 
     public static string Forward(string targetIp, string command)
     {
-        for (int port = PortFrom; port <= PortTo; port++)
+        for (int port = NetworkConfig.PortFrom; port <= NetworkConfig.PortTo; port++)
         {
             try
             {
