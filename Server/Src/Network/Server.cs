@@ -1,6 +1,5 @@
 ﻿using BMBank.Src.Common;
 using Microsoft.Data.SqlClient;
-using System.Net;
 using System.Net.Sockets;
 
 namespace BMBank.Src.Network

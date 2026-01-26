@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36717.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMBank", "BMBank.csproj", "{D50ABD4F-30AD-49E0-9D9E-B10603EA1055}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{C296B415-2559-4DD9-89DC-CC642701446B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{B76585C2-0617-47DB-9003-F07879DA9F14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D50ABD4F-30AD-49E0-9D9E-B10603EA1055}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{D50ABD4F-30AD-49E0-9D9E-B10603EA1055}.Debug|Any CPU.Build.0 = Release|Any CPU
-		{D50ABD4F-30AD-49E0-9D9E-B10603EA1055}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D50ABD4F-30AD-49E0-9D9E-B10603EA1055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C296B415-2559-4DD9-89DC-CC642701446B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C296B415-2559-4DD9-89DC-CC642701446B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C296B415-2559-4DD9-89DC-CC642701446B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C296B415-2559-4DD9-89DC-CC642701446B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B76585C2-0617-47DB-9003-F07879DA9F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B76585C2-0617-47DB-9003-F07879DA9F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B76585C2-0617-47DB-9003-F07879DA9F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B76585C2-0617-47DB-9003-F07879DA9F14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

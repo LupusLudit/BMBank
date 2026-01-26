@@ -1,7 +1,6 @@
 ﻿using BMBank.Src.App.Commands;
 using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
-using BookOrg.Src.Logic.Connection;
 using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App
