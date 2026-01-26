@@ -1,13 +1,9 @@
 ﻿namespace UI.ViewModels;
 
-public class ActiveAccountViewModel
+public class AccountInfo
 {
     public int AccountNumber { get; set; }
     public long Balance { get; set; }
     public DateTime CreatedAt { get; set; }
-}
-
-public class ClosedAccountViewModel : ActiveAccountViewModel
-{
-    public DateTime ClosedAt { get; set; }
+    public DateTime? ClosedAt { get; set; }
 }
