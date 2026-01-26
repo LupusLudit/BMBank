@@ -36,7 +36,8 @@
 
 	<ClassMembers name="Account">
 		<summary>
-			
+			Represents a bank account entity stored in the database.
+			Contains account number, balance, status, creation date, and optional closure date.
 		</summary>
 	</ClassMembers>
 
@@ -49,7 +50,39 @@
 
 	<ClassMembers name="AccountDAO">
 		<summary>
+			Data Access Object for bank accounts.
+			Provides methods to create accounts, deposit, withdraw, retrieve balances,
+			remove accounts, and get bank-wide totals using SQL Server stored procedures and views.
+		</summary>
+	</ClassMembers>
 
+	<ClassMembers name="Server">
+		<summary>
+			Represents the TCP server for the bank application.
+			Listens for incoming client connections, creates ClientSession instances,
+			and handles start/stop operations with proper logging and cancellation support.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="NetworkConfig">
+		<summary>
+			Static class providing network configuration settings for the bank P2P network.
+			Retrieves port range and network prefix from application configuration.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="IPAddressObtainer">
+		<summary>
+			Static utility class to obtain the local machine's IPv4 address.
+			Returns the first available IPv4 address or null if none are found.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="ClientSession">
+		<summary>
+			Represents a network session with a connected client.
+			Receives and processes commands asynchronously using CommandHandler,
+			handles timeouts, and logs all session activity.
 		</summary>
 	</ClassMembers>
 
@@ -62,9 +95,93 @@
 
 	<ClassMembers name="BankProxyClient">
 		<summary>
-			Static class responsible for forwarding bank commands to other nodes in the P2P network.
-			Scans a range of TCP ports (65525–65535) to locate active bank nodes.
-			Handles timeouts and read/write operations safely.
+			Static class responsible for forwarding commands to other bank nodes in the P2P network.
+			Scans a range of TCP ports, establishes connections, and safely sends/receives commands with timeouts.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="CommandHandler">
+		<summary>
+			Handles processing of banking commands.
+			Maps command keys to ICommand implementations and executes them,
+			using AccountDAO to interact with accounts stored in the database.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AccountBalanceCommand">
+		<summary>
+			Command to retrieve the balance of a specific account.
+			Uses AccountDAO for local accounts or forwards the request to another bank node in the network.
+		</summary>
+	</ClassMembers>
+	
+	<ClassMembers name="AccountCreateCommand">
+		<summary>
+			Command to create a new account in the database.
+			Uses AccountDAO to generate the account and returns the new account number with the local IP.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AccountDepositCommand">
+		<summary>
+			Command to deposit a specified amount into an account.
+			Uses AccountDAO for local accounts or forwards the deposit request to another bank node in the network.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AccountRemoveCommand">
+		<summary>
+			Command to remove an account from the database.
+			Uses AccountDAO and only allows removal of local accounts based on the local IP.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="AccountWithdrawCommand">
+		<summary>
+			Command to withdraw a specified amount from an account.
+			Uses AccountDAO for local accounts or forwards the withdrawal request to another bank node in the network.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BankAmountCommand">
+		<summary>
+			Command to retrieve the total amount of money held by the bank.
+			Uses AccountDAO to calculate the sum of all account balances.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BankClientCountCommand">
+		<summary>
+			Command to retrieve the total number of clients in the bank.
+			Uses AccountDAO to count all accounts stored in the database.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="BankCodeCommand">
+		<summary>
+			Command to retrieve the local IPv4 address of the bank node.
+			Returns the address as the bank code and takes no arguments.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="RobberyPlanCommand">
+		<summary>
+			Command to compute a robbery plan across the bank P2P network.
+			Discovers other banks, gathers their total funds and client counts,
+			and selects a subset of banks to reach a target amount within a time limit.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="IAccountInteractionCommand">
+		<summary>
+			Interface for commands that interact with bank accounts.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="ICommand">
+		<summary>
+			Interface representing a bank command.
+			Each command has a unique Key and can be executed with a string of arguments.
 		</summary>
 	</ClassMembers>
 	
