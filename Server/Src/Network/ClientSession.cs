@@ -35,19 +35,7 @@ namespace BMBank.Src.Network
 
                 while (!serverCancellationToken.IsCancellationRequested)
                 {
-                    Task<string?> readTask = reader.ReadLineAsync();
-                    Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
-
-                    Task completed = await Task.WhenAny(readTask, timeoutTask);
-
-                    if (completed == timeoutTask)
-                    {
-                        Logger.Warning($"Session timeout for [{clientIp}]");
-                        await writer.WriteLineAsync("ER Session timeout");
-                        break;
-                    }
-
-                    string? request = await readTask;
+                    string? request = await reader.ReadLineAsync();
 
                     if (request == null)
                     {
@@ -60,10 +48,22 @@ namespace BMBank.Src.Network
 
                     Logger.Info($"Received request from [{clientIp}]: {request}");
 
-                    string response = SafeExecutor.Execute(
-                        () => commandHandler.ProcessCommand(request)
+                    Task<string> commandTask = Task.Run(() =>
+                        SafeExecutor.Execute(() => commandHandler.ProcessCommand(request))
                     );
 
+                    Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
+
+                    Task completed = await Task.WhenAny(commandTask, timeoutTask);
+
+                    if (completed == timeoutTask)
+                    {
+                        Logger.Warning($"Command timeout for [{clientIp}]");
+                        await writer.WriteLineAsync("ER Session timeout");
+                        continue;
+                    }
+
+                    string response = await commandTask;
                     await writer.WriteLineAsync(response);
                 }
             }
