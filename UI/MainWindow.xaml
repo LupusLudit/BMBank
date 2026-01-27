@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         Title="BMBank Admin UI"
-        Height="450"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Height="600"
         Width="800">
 
     <DockPanel>
