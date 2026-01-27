@@ -77,3 +77,14 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ### Fixed - 2026-01-26 by Michal Bielina
 - Reorganized the project structure so it can support the UI app (local project refferencing may be needed) - added the Server and UI projects. Note: Due to project reorganization will all files look as if they were added in this commit. To track authorship, use this changelog file.
+
+### Added - 2026-01-26 by Pavel Halík
+- Configuration-driven network scanning:
+	- Server IP address is now loaded from `App.config`.
+	- Port range for network scanning is configurable via `App.config`.
+- Initial UI application:
+	- Basic UI created for interacting with the bank system.
+	- Display of currently active accounts loaded from the database.
+	- Display of closed (terminated) accounts loaded from the database.
+	- Display of total number of bank clients.
+	- Server status indicator (ONLINE / OFFLINE).
