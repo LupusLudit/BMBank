@@ -88,3 +88,4 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Display of closed (terminated) accounts loaded from the database.
 	- Display of total number of bank clients.
 	- Server status indicator (ONLINE / OFFLINE).
+- Documentation about every class in `ClassDocumentation.xml`.
