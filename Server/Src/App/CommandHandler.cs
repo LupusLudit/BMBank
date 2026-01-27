@@ -8,10 +8,12 @@ namespace BMBank.Src.App
     public class CommandHandler
     {
         private Dictionary<string, ICommand> commands;
+        private ClientCommandLogDAO logDao;
 
         public CommandHandler(SqlConnection connection)
         {
             AccountDAO dao = new AccountDAO(connection);
+            logDao = new ClientCommandLogDAO(connection);
 
             List<ICommand> commandList = new List<ICommand>
             {

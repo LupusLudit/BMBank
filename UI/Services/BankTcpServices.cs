@@ -44,7 +44,7 @@ public class BankTcpServices
             using var reader = new StreamReader(stream, Encoding.UTF8);
             using var writer = new StreamWriter(stream, Encoding.UTF8) { AutoFlush = true };
 
-            writer.WriteLine("BN");
+            writer.WriteLine("UI-BN");
             string? response = await reader.ReadLineAsync();
 
             if (response != null)

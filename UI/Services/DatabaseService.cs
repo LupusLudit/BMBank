@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using UI.ViewModels;
 
-namespace UI;
+namespace UI.Services;
 
 public class DatabaseService
 {
@@ -46,4 +46,27 @@ public class DatabaseService
             };
         }
     }
+    
+    public IEnumerable<ClientInfo> GetClientInfos()
+    {
+        using var cmd = new SqlCommand(
+            @"select top 20 client_ip, command, arguments, executed_at, result_status
+                  from view_ui_client_activity
+                  order by executed_at desc",
+            connection
+        );
+
+        using var reader = cmd.ExecuteReader();
+        while (reader.Read())
+        {
+            yield return new ClientInfo
+            {
+                Ip = (string)reader["client_ip"],
+                LastCommand = $"{reader["command"]} {reader["arguments"]}".Trim(),
+                Timestamp = (DateTime)reader["executed_at"],
+                Status = (string)reader["result_status"]
+            };
+        }
+    }
+
 }

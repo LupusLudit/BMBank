@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using Microsoft.Data.SqlClient;
 using System.Windows.Threading;
+using UI.Services;
 
 namespace UI.ViewModels;
 
@@ -110,6 +111,12 @@ public class MainViewModel : INotifyPropertyChanged
         foreach (var a in db.GetActiveAccounts())
         {
             ActiveAccounts.Add(a);
+        }
+        
+        Clients.Clear();
+        foreach (var client in db.GetClientInfos())
+        {
+            Clients.Add(client);
         }
 
         ClosedAccounts.Clear();

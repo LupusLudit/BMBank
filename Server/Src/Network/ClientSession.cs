@@ -3,6 +3,7 @@ using BMBank.Src.Common;
 using Microsoft.Data.SqlClient;
 using System.Net.Sockets;
 using System.Text;
+using BMBank.Src.DatabaseInteraction.Core.DAO;
 
 namespace BMBank.Src.Network
 {
@@ -11,11 +12,13 @@ namespace BMBank.Src.Network
         private TcpClient client;
         private CommandHandler commandHandler;
         private const int timeoutInMs = 5000;
+        private ClientCommandLogDAO logDao;
 
         public ClientSession(TcpClient client, SqlConnection connection)
         {
             this.client = client;
             commandHandler = new CommandHandler(connection);
+            logDao = new ClientCommandLogDAO(connection);
         }
 
         public async Task HandleAsync(CancellationToken serverCancellationToken)
@@ -45,8 +48,18 @@ namespace BMBank.Src.Network
 
                     if (string.IsNullOrWhiteSpace(request))
                         continue;
+                    
+                    bool isUiRequest = request.StartsWith("UI-");
 
-                    Logger.Info($"Received request from [{clientIp}]: {request}");
+                    if (isUiRequest)
+                    {
+                        request = request.Substring(3);
+                    }
+                    
+                    if (!isUiRequest)
+                    {
+                        Logger.Info($"Received request from [{clientIp}]: {request}");
+                    }
 
                     Task<string> commandTask = Task.Run(() =>
                         SafeExecutor.Execute(() => commandHandler.ProcessCommand(request))
@@ -65,6 +78,24 @@ namespace BMBank.Src.Network
 
                     string response = await commandTask;
                     await writer.WriteLineAsync(response);
+                    
+                    string commandKey = request.Substring(0, 2).ToUpper();
+                    string arguments = "";
+
+                    if (request.Length > 2)
+                    {
+                        arguments = request.Substring(2).Trim();
+                    }
+                    
+                    if (!isUiRequest)
+                    {
+                        logDao.Insert(
+                            clientIp ?? "UNKNOWN",
+                            commandKey,
+                            arguments,
+                            response.StartsWith("ER") ? "ERROR" : "OK"
+                        );
+                    }
                 }
             }
             catch (IOException ex)

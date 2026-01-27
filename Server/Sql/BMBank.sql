@@ -19,6 +19,17 @@ created_at_date datetime2 not null default sysutcdatetime(),
 closed_at_date datetime2 null
 );
 
+
+--Table representing the commands executed by clients.
+create table client_command_log (
+    id int identity primary key,
+    client_ip nvarchar(50) not null,
+    command nvarchar(10) not null,
+    arguments nvarchar(200) null,
+    executed_at datetime2 not null default sysutcdatetime(),
+    result_status nvarchar(20) not null
+);
+
 -- Sequence for issuing new account numbers (10000�99999)
 create sequence account_number_sequence
 as int
@@ -179,5 +190,16 @@ as
 select account_number, closed_at_date
 from account
 where is_active = 0;
+
+-- View for showing executed commands by clients
+create view view_ui_client_activity as
+select
+    client_ip,
+    command,
+    arguments,
+    executed_at,
+    result_status
+from client_command_log;
+
 
 select * from account;
