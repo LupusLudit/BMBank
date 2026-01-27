@@ -10,6 +10,11 @@ namespace BMBank.Src.App
         private Dictionary<string, ICommand> commands;
         private ClientCommandLogDAO logDao;
 
+        /// <summary>
+        /// Initializes the command handler with the given database connection.
+        /// Sets up all available commands.
+        /// </summary>
+        /// <param name="connection">Active SQL database connection.</param>
         public CommandHandler(SqlConnection connection)
         {
             AccountDAO dao = new AccountDAO(connection);
@@ -31,6 +36,15 @@ namespace BMBank.Src.App
             commands = commandList.ToDictionary(command => command.Key, command => command);
         }
 
+        /// <summary>
+        /// Parses the input string, extracts the command key and arguments,
+        /// and executes the corresponding command.
+        /// </summary>
+        /// <param name="input">The raw command string input by the client.</param>
+        /// <returns>
+        /// The result of the command execution as a string.
+        /// Returns an empty string if the input is empty or whitespace.
+        /// </returns>
         public string ProcessCommand(string input)
         {
             if (string.IsNullOrWhiteSpace(input))

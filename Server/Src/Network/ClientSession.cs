@@ -14,6 +14,11 @@ namespace BMBank.Src.Network
         private const int timeoutInMs = 5000;
         private ClientCommandLogDAO logDao;
 
+        /// <summary>
+        /// Initializes a new client session for the connected TCP client.
+        /// </summary>
+        /// <param name="client">The TCP client representing the connection.</param>
+        /// <param name="connection">The SQL connection used for command handling and logging.</param>
         public ClientSession(TcpClient client, SqlConnection connection)
         {
             this.client = client;
@@ -21,6 +26,13 @@ namespace BMBank.Src.Network
             logDao = new ClientCommandLogDAO(connection);
         }
 
+        /// <summary>
+        /// Handles all incoming requests from the client asynchronously.
+        /// Processes commands, handles timeouts, and logs all executed commands except UI polling.
+        /// Exceptions are caught and logged using <see cref="Logger"/>.
+        /// </summary>
+        /// <param name="serverCancellationToken">Cancellation token to stop processing when the server is shutting down.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         public async Task HandleAsync(CancellationToken serverCancellationToken)
         {
             string? clientIp = client.Client.RemoteEndPoint?.ToString();
@@ -38,7 +50,16 @@ namespace BMBank.Src.Network
 
                 while (!serverCancellationToken.IsCancellationRequested)
                 {
-                    string? request = await reader.ReadLineAsync();
+                    string? request;
+                    try
+                    {
+                        request = await reader.ReadLineAsync();
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.Warning($"IO exception while reading from [{clientIp}]: {ex.Message}");
+                        break;
+                    }
 
                     if (request == null)
                     {
@@ -61,23 +82,33 @@ namespace BMBank.Src.Network
                         Logger.Info($"Received request from [{clientIp}]: {request}");
                     }
 
-                    Task<string> commandTask = Task.Run(() =>
-                        SafeExecutor.Execute(() => commandHandler.ProcessCommand(request))
-                    );
-
-                    Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
-
-                    Task completed = await Task.WhenAny(commandTask, timeoutTask);
-
-                    if (completed == timeoutTask)
+                    string response;
+                    try
                     {
-                        Logger.Warning($"Command timeout for [{clientIp}]");
-                        await writer.WriteLineAsync("ER Session timeout");
-                        continue;
-                    }
+                        Task<string> commandTask = Task.Run(() =>
+                            SafeExecutor.Execute(() => commandHandler.ProcessCommand(request))
+                        );
 
-                    string response = await commandTask;
-                    await writer.WriteLineAsync(response);
+                        Task timeoutTask = Task.Delay(timeoutInMs, serverCancellationToken);
+
+                        Task completed = await Task.WhenAny(commandTask, timeoutTask);
+
+                        if (completed == timeoutTask)
+                        {
+                            Logger.Warning($"Command timeout for [{clientIp}]");
+                            await writer.WriteLineAsync("ER Session timeout");
+                            continue;
+                        }
+
+                        response = await commandTask;
+                        await writer.WriteLineAsync(response);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"Error executing command from [{clientIp}]: {ex.Message}");
+                        response = "ER executing command";
+                        await writer.WriteLineAsync(response);
+                    }
                     
                     string commandKey = request.Substring(0, 2).ToUpper();
                     string arguments = "";
@@ -87,14 +118,21 @@ namespace BMBank.Src.Network
                         arguments = request.Substring(2).Trim();
                     }
                     
-                    if (!isUiRequest)
+                    try
                     {
-                        logDao.Insert(
-                            clientIp ?? "UNKNOWN",
-                            commandKey,
-                            arguments,
-                            response.StartsWith("ER") ? "ERROR" : "OK"
-                        );
+                        if (!isUiRequest)
+                        {
+                            logDao.Insert(
+                                clientIp ?? "UNKNOWN",
+                                commandKey,
+                                arguments,
+                                response.StartsWith("ER") ? "ERROR" : "OK"
+                            );
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"Failed to log command from [{clientIp}]: {ex.Message}");
                     }
                 }
             }
@@ -108,7 +146,14 @@ namespace BMBank.Src.Network
             }
             finally
             {
-                client.Close();
+                try
+                {
+                    client.Close();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to close client socket [{clientIp}]: {ex.Message}");
+                }
                 Logger.Info($"Session Closed for [{clientIp}]");
             }
         }

@@ -1,6 +1,7 @@
 ﻿using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
 using BMBank.Src.Network;
+
 namespace BMBank.Src.App.Commands
 {
     public class AccountDepositCommand : ICommand, IAccountInteractionCommand
@@ -12,7 +13,22 @@ namespace BMBank.Src.App.Commands
         {
             DAO = dao;
         }
-
+        
+        /// <summary>
+        /// Executes the Account Deposit command (AD).
+        /// </summary>
+        /// <param name="arguments">
+        /// Command arguments in format ACCOUNT/IP AMOUNT,
+        /// where ACCOUNT is the account number, IP is the target bank address and AMOUNT is the value to be deposited.
+        /// </param>
+        /// <returns>
+        /// Returns "AD" if the deposit is performed on the local bank,
+        /// otherwise returns the response from the remote bank node.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// Thrown when the arguments are in an invalid format, the account number
+        /// cannot be parsed, or the amount is not a valid number.
+        /// </exception>
         public string Execute(string arguments)
         {
             string[] argumentParts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);

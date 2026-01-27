@@ -9,6 +9,14 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
         public AccountDAO(SqlConnection connection) : base(connection)
         {
         }
+        
+        /// <summary>
+        /// Creates a new account in the database.
+        /// </summary>
+        /// <returns>The account number of the newly created account.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the account number could not be retrieved after creation.
+        /// </exception>
         public int CreateAccount()
         {
             using (SqlCommand command = CreateCommand("create_account"))
@@ -28,6 +36,11 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             }
         }
 
+        /// <summary>
+        /// Deposits a specified amount into a given account.
+        /// </summary>
+        /// <param name="accountNumber">The account number to deposit into.</param>
+        /// <param name="amount">The amount to deposit.</param>
         public void Deposit(int accountNumber, long amount)
         {
             SqlCommand command = CreateCommand("deposit_account");
@@ -37,6 +50,11 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Withdraws a specified amount from a given account.
+        /// </summary>
+        /// <param name="accountNumber">The account number to withdraw from.</param>
+        /// <param name="amount">The amount to withdraw.</param>
         public void Withdraw(int accountNumber, long amount)
         {
             SqlCommand command = CreateCommand("withdraw_account");
@@ -46,6 +64,12 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves the balance of a specified account.
+        /// </summary>
+        /// <param name="accountNumber">The account number to query.</param>
+        /// <returns>The current balance of the account.</returns>
+        /// <exception cref="InvalidOperationException">Thrown if the account is not found.</exception>
         public long GetBalance(int accountNumber)
         {
             SqlCommand command = CreateCommand("get_account_balance");
@@ -63,6 +87,10 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             throw new InvalidOperationException("Account not found.");
         }
 
+        /// <summary>
+        /// Removes the specified account from the database.
+        /// </summary>
+        /// <param name="accountNumber">The account number to remove.</param>
         public void RemoveAccount(int accountNumber)
         {
             SqlCommand command = CreateCommand("remove_account");
@@ -71,6 +99,13 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Retrieves the total sum of money across all accounts in the bank.
+        /// </summary>
+        /// <returns>Total amount in the bank.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the total amount cannot be retrieved.
+        /// </exception>
         public long GetTotalAmount()
         {
             SqlCommand command = CreateCommand("select total_amount from view_bank_total_amount");
@@ -86,6 +121,13 @@ namespace BMBank.Src.DatabaseInteraction.Core.DAO
             }
         }
 
+        /// <summary>
+        /// Retrieves the total number of clients in the bank.
+        /// </summary>
+        /// <returns>Total client count.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the client count cannot be retrieved.
+        /// </exception>
         public int GetClientCount()
         {
             SqlCommand command = CreateCommand("select client_count from view_bank_client_count");

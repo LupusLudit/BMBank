@@ -11,7 +11,20 @@ public class RobberyPlanCommand : ICommand
     public string Key => "RP";
     private const int timeout = 5000;
     private const int maxParallel = 10;
-
+    
+    /// <summary>
+    /// Executes the Robbery Plan command (RP).
+    /// </summary>
+    /// <param name="arguments">
+    /// Target amount of money to be collected.
+    /// </param>
+    /// <returns>
+    /// A robbery plan describing which banks must be robbed and how many
+    /// clients will be harmed, or an error message if the operation fails or times out.
+    /// </returns>
+    /// <exception cref="FormatException">
+    /// Thrown if the provided argument is not a valid number.
+    /// </exception>
     public string Execute(string arguments)
     {
         if (!long.TryParse(arguments.Trim(), out long targetAmount))
@@ -31,6 +44,19 @@ public class RobberyPlanCommand : ICommand
         }
     }
 
+    /// <summary>
+    /// Internal execution logic for the robbery plan.
+    /// </summary>
+    /// <param name="targetAmount">
+    /// Target amount of money to be collected.
+    /// </param>
+    /// <param name="token">
+    /// Cancellation token used to enforce execution timeout.
+    /// </param>
+    /// <returns>
+    /// A formatted robbery plan result, or an informational message
+    /// if no banks are available in the network.
+    /// </returns>
     private string ExecuteInternal(long targetAmount, CancellationToken token)
     {
         string localIp = IPAddressObtainer.GetLocalIPv4Address();

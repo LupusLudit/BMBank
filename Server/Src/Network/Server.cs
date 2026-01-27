@@ -10,6 +10,11 @@ namespace BMBank.Src.Network
         private CancellationTokenSource cancellationTokenSource;
         private SqlConnection connection;
 
+        /// <summary>
+        /// Initializes a new instance of the Server class.
+        /// </summary>
+        /// <param name="port">The TCP port on which the server will listen for connections.</param>
+        /// <param name="connection">The SQL connection used for database interactions.</param>
         public Server(int port, SqlConnection connection)
         {
             listener = new TcpListener(System.Net.IPAddress.Any, port);
@@ -18,6 +23,10 @@ namespace BMBank.Src.Network
             cancellationTokenSource = new CancellationTokenSource();
         }
 
+        /// <summary>
+        /// Starts the server and begins accepting client connections asynchronously.
+        /// Each connection is handled in a separate task with a ClientSession.
+        /// </summary>
         public async Task StartAsync()
         {
             listener.Start();

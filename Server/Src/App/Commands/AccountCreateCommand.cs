@@ -13,7 +13,20 @@ namespace BMBank.Src.App.Commands
         {
             DAO = dao;
         }
-
+        
+        /// <summary>
+        /// Executes the Account Create command (AC).
+        /// </summary>
+        /// <param name="arguments">
+        /// This command does not accept any arguments.
+        /// </param>
+        /// <returns>
+        /// Returns the newly created account identifier in format "AC ACCOUNT/IP",
+        /// where ACCOUNT is the new account number and IP is the local bank node address.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the local IP address cannot be determined.
+        /// </exception>
         public string Execute(string arguments)
         {
             string? localIp = IPAddressObtainer.GetLocalIPv4Address();

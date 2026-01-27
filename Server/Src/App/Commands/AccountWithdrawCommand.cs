@@ -14,7 +14,25 @@ namespace BMBank.Src.App.Commands
         {
             DAO = dao;
         }
-
+        
+        /// <summary>
+        /// Executes the Account Withdraw command (AW).
+        /// </summary>
+        /// <param name="arguments">
+        /// Command arguments in format ACCOUNT/IP AMOUNT,
+        /// where ACCOUNT is the account number, IP is the target bank node,
+        /// and AMOUNT is the amount to withdraw.
+        /// </param>
+        /// <returns>
+        /// Returns "AW" if the withdrawal was performed locally,
+        /// or forwards the command to a remote bank node if the IP differs.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// Thrown when the arguments are invalid:
+        /// - Wrong format
+        /// - Account number cannot be parsed
+        /// - Amount is not a valid long
+        /// </exception>
 
         public string Execute(string arguments)
         {

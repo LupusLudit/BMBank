@@ -15,7 +15,22 @@ namespace BMBank.Src.App.Commands
             DAO = dao;
         }
 
-
+        /// <summary>
+        /// Executes the Account Remove command (AR).
+        /// </summary>
+        /// <param name="arguments">
+        /// Command arguments in format ACCOUNT/IP,
+        /// where ACCOUNT is the account number and IP is the target bank address.
+        /// </param>
+        /// <returns>
+        /// Returns "AR" when the account is successfully removed from the local bank.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// Thrown when the arguments are in an invalid format or the account number cannot be parsed.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the provided IP address does not match the local bank node.
+        /// </exception>
         public string Execute(string arguments)
         {
             string[] accountParts = arguments.Trim().Split('/');

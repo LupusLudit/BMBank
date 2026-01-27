@@ -2,6 +2,15 @@
 
 public static class BankNetworkExplorer
 {
+    /// <summary>
+    /// Discovers all possible bank IP addresses based on the configured network prefix.
+    /// </summary>
+    /// <returns>
+    /// An enumerable of strings representing possible bank IP addresses.
+    /// </returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if the network prefix from is not in a valid format (1–3 octets).
+    /// </exception>
     public static IEnumerable<string> DiscoverBanks()
     {
         string prefix = NetworkConfig.NetworkPrefix;
@@ -46,5 +55,11 @@ public static class BankNetworkExplorer
         }
     }
 
+    /// <summary>
+    /// Represents information about a bank node.
+    /// </summary>
+    /// <param name="Ip">The IP address of the bank.</param>
+    /// <param name="Money">The total money held by the bank.</param>
+    /// <param name="Clients">The number of clients in the bank.</param>
     public record BankInfo(string Ip, long Money, int Clients);
 }

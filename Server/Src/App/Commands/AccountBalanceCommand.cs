@@ -1,6 +1,7 @@
 ﻿using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
 using BMBank.Src.Network;
+
 namespace BMBank.Src.App.Commands
 {
     public class AccountBalanceCommand : ICommand, IAccountInteractionCommand
@@ -12,6 +13,20 @@ namespace BMBank.Src.App.Commands
             DAO = dao;
         }
 
+        /// <summary>
+        /// Executes the Account Balance command (AB).
+        /// </summary>
+        /// <param name="arguments">
+        /// Command arguments in format ACCOUNT/IP,
+        /// where ACCOUNT is the account number and IP is the target bank address.
+        /// </param>
+        /// <returns>
+        /// Returns the account balance in format "AB BALANCE" if the account is local,
+        /// otherwise returns the response from the remote bank node.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// Thrown when the arguments are in an invalid format or the account number cannot be parsed.
+        /// </exception>
         public string Execute(string arguments)
         {
             string[] accountParts = arguments.Trim().Split('/');

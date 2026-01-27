@@ -7,6 +7,14 @@ public static class BankProxyClient
 {
     private const int Timeout = 5000;
 
+    /// <summary>
+    /// Forwards a command to a remote bank node.
+    /// </summary>
+    /// <param name="targetIp">The target bank IP address.</param>
+    /// <param name="command">The command to forward.</param>
+    /// <returns>
+    /// The response from the remote bank node, or "ER No bank found" if no node responded.
+    /// </returns>
     public static string Forward(string targetIp, string command)
     {
         for (int port = NetworkConfig.PortFrom; port <= NetworkConfig.PortTo; port++)
