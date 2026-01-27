@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using UI.ViewModels;
+using UI.ViewModels.DataModels;
 
 namespace UI.Services;
 
@@ -68,5 +69,4 @@ public class DatabaseService
             };
         }
     }
-
 }

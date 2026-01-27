@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Microsoft.Data.SqlClient;
 using System.Windows.Threading;
 using UI.Services;
+using UI.ViewModels.DataModels;
 
 namespace UI.ViewModels;
 

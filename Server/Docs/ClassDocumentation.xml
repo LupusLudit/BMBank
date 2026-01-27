@@ -41,6 +41,13 @@
 		</summary>
 	</ClassMembers>
 
+	<ClassMembers name="ClientCommandLog">
+		<summary>
+			Represents a log entry for a command executed by a client on the bank server.
+			Stores the client IP, executed command, arguments, result status, and timestamp.
+		</summary>
+	</ClassMembers>
+
 	<ClassMembers name="DAOBase">
 		<summary>
 			Abstract base class for Data Access Objects.
@@ -53,6 +60,15 @@
 			Data Access Object for bank accounts.
 			Provides methods to create accounts, deposit, withdraw, retrieve balances,
 			remove accounts, and get bank-wide totals using SQL Server stored procedures and views.
+		</summary>
+	</ClassMembers>
+
+	<ClassMembers name="ClientCommandLogDAO">
+		<summary>
+			Data Access Object responsible for logging client commands executed on the bank server.
+			Inserts command execution records into the client_command_log table
+			and maintains only the most recent log entries by performing automatic cleanup.
+			Uses database transactions to ensure atomicity of insert and cleanup operations.
 		</summary>
 	</ClassMembers>
 
@@ -184,5 +200,5 @@
 			Each command has a unique Key and can be executed with a string of arguments.
 		</summary>
 	</ClassMembers>
-	
+
 </ClassDocumentation>

@@ -1,4 +1,4 @@
-﻿namespace UI.ViewModels;
+﻿namespace UI.ViewModels.DataModels;
 
 public class AccountInfo
 {

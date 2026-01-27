@@ -26,8 +26,7 @@ public class ClientCommandLogDAO : DAOBase<ClientCommandLog>
         cmd.Parameters.AddWithValue("@status", resultStatus);
 
         cmd.ExecuteNonQuery();
-
-        // cleanup – udržujeme jen posledních 50
+        
         using var cleanupCmd = CreateCommand(
             @"DELETE FROM client_command_log
                   WHERE id NOT IN (
