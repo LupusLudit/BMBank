@@ -88,4 +88,27 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Display of closed (terminated) accounts loaded from the database.
 	- Display of total number of bank clients.
 	- Server status indicator (ONLINE / OFFLINE).
+   	- Live refresh mechanism (periodic refresh every few seconds).
 - Documentation about every class in `ClassDocumentation.xml`.
+
+### Added - 2026-01-27 by Pavel Halík
+
+- Extended Admin UI functionality:
+	- New Clients tab showing:
+		- Client IP address
+		- Last executed command
+		- Command execution timestamp
+		- Command status (OK / ERROR)
+	- Accounts tab enhanced to show:
+		- Active accounts
+		- Closed accounts
+- UI window behavior improvements:
+	- Disabled window resizing to enforce fixed UI layout.
+- Server-side command logging:
+	- Logging of executed client commands into the database.
+	- Command logs include client IP, command type, arguments, timestamp, and result.
+	- Admin UI requests are internally flagged and excluded from command logs.
+	- Ensured standard client commands are logged without modification.
+- Improved client identification:
+	- Differentiation between Admin UI requests and regular client requests without introducing new commands.
+
