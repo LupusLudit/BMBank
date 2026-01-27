@@ -111,4 +111,6 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Ensured standard client commands are logged without modification.
 - Improved client identification:
 	- Differentiation between Admin UI requests and regular client requests without introducing new commands.
+- Documentation for new classes in `ClassDocumentation.xml`.
+- Added XML documentation comments for every non-trivial method.
 
