@@ -24,7 +24,9 @@ public class BankTcpServices
             var timeoutTask = Task.Delay(2000);
 
             if (await Task.WhenAny(connectTask, timeoutTask) == timeoutTask)
+            {
                 return false;
+            }
 
             return client.Connected;
         }
@@ -49,7 +51,9 @@ public class BankTcpServices
             {
                 var parts = response.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (parts.Length == 2 && int.TryParse(parts[1], out int count))
+                {
                     return count;
+                }
             }
         }
         catch { }

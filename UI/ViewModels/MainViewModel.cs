@@ -33,21 +33,49 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
-    public Brush ServerStatusColor()
+    public Brush ServerStatusColor
     {
-        return ServerStatus == "ONLINE" ? Brushes.Green : Brushes.Red;
+        get
+        {
+            if (ServerStatus == "ONLINE")
+            {
+                return Brushes.Green;
+            }
+            else
+            {
+                return Brushes.Red;
+            }
+        }
+        
     } 
     
     private int clientCount;
-    public string ConnectedClientsText()
+    public string ConnectedClientsText
     {
-        return $"Connected clients: {clientCount}";
+        get
+        {
+            return $"Total bank clients: {clientCount}";
+        }
     }
 
     public MainViewModel()
     {
-        string ip = ConfigurationManager.AppSettings["ServerIp"] ?? "127.0.0.1";
-        int port = int.TryParse(ConfigurationManager.AppSettings["ServerPort"], out var p) ? p : 65525;
+        string ip;
+
+        if (ConfigurationManager.AppSettings["ServerIp"] != null)
+        {
+            ip = ConfigurationManager.AppSettings["ServerIp"];
+        }
+        else
+        {
+            ip = "127.0.0.1";
+        }
+        
+        int port = 65525;
+        if (int.TryParse(ConfigurationManager.AppSettings["ServerPort"], out int p))
+        {
+            port = p;
+        }
         
         tcp = new BankTcpServices(ip, port);
         
@@ -61,25 +89,23 @@ public class MainViewModel : INotifyPropertyChanged
         db = new DatabaseService(conn);
 
         var dispatcherTimer = new DispatcherTimer();
-        dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
+        dispatcherTimer.Interval = TimeSpan.FromSeconds(3);
         dispatcherTimer.Tick += async (s, e) => await RefreshAll();
         dispatcherTimer.Start();
-
     }
     
     private async Task RefreshAll()
     {
         bool online = await tcp.IsServerOnline();
-        ServerStatus = online ? "ONLINE" : "OFFLINE";
-
-        if (!online)
+        if (online)
         {
-            return;
+            ServerStatus = "ONLINE";
         }
-
-        clientCount = await tcp.GetClientCount();
-        OnPropertyChanged(nameof(ConnectedClientsText));
-
+        else
+        {
+            ServerStatus = "OFFLINE";
+        }
+        
         ActiveAccounts.Clear();
         foreach (var a in db.GetActiveAccounts())
         {
@@ -91,6 +117,14 @@ public class MainViewModel : INotifyPropertyChanged
         {
             ClosedAccounts.Add(a);
         }
+
+        if (!online)
+        {
+            return;
+        }
+
+        clientCount = await tcp.GetClientCount();
+        OnPropertyChanged(nameof(ConnectedClientsText));
     }
 
 
