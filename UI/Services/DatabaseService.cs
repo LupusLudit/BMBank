@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.SqlClient;
-using UI.ViewModels;
 using UI.ViewModels.DataModels;
 
 namespace UI.Services;
@@ -17,6 +16,11 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// Retrieves all active bank accounts from the database.
+    /// </summary>
+    /// <returns>An enumerable of AccountInfo for active accounts.</returns>
+    /// <exception cref="SqlException">Thrown if the query execution fails.</exception>
     public IEnumerable<AccountInfo> GetActiveAccounts()
     {
         using var cmd = new SqlCommand("SELECT account_number, balance, created_at_date FROM view_active_accounts", connection);
@@ -32,6 +36,11 @@ public class DatabaseService
         }
     }
 
+    /// <summary>
+    /// Retrieves all closed bank accounts from the database.
+    /// </summary>
+    /// <returns>An enumerable of AccountInfo for closed accounts, including the closing date.</returns>
+    /// <exception cref="SqlException">Thrown if the query execution fails.</exception>
     public IEnumerable<AccountInfo> GetClosedAccounts()
     {
         using var cmd = new SqlCommand("SELECT account_number, balance, created_at_date, closed_at_date FROM view_closed_accounts", connection);
@@ -48,6 +57,11 @@ public class DatabaseService
         }
     }
     
+    /// <summary>
+    /// Retrieves information about the last 20 client commands from the database.
+    /// </summary>
+    /// <returns>An enumerable of ClientInfo containing client IP, last command, timestamp, and result status.</returns>
+    /// <exception cref="SqlException">Thrown if the query execution fails.</exception>
     public IEnumerable<ClientInfo> GetClientInfos()
     {
         using var cmd = new SqlCommand(

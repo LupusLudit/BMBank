@@ -60,6 +60,12 @@ public class MainViewModel : INotifyPropertyChanged
         }
     }
 
+    /// <summary>
+    /// Initializes the ViewModel.
+    /// Sets up TCP connection, database service, and starts a timer for automatic data refresh every 3 seconds.
+    /// </summary>
+    /// <exception cref="SqlException">Thrown if the database connection cannot be opened.</exception>
+    /// <exception cref="FormatException">Thrown if the server port in the configuration is invalid.</exception>
     public MainViewModel()
     {
         string ip;
@@ -74,9 +80,9 @@ public class MainViewModel : INotifyPropertyChanged
         }
         
         int port = 65525;
-        if (int.TryParse(ConfigurationManager.AppSettings["ServerPort"], out int p))
+        if (!int.TryParse(ConfigurationManager.AppSettings["ServerPort"], out port))
         {
-            port = p;
+            throw new FormatException("Invalid ServerPort in configuration.");
         }
         
         tcp = new BankTcpServices(ip, port);
@@ -96,6 +102,9 @@ public class MainViewModel : INotifyPropertyChanged
         dispatcherTimer.Start();
     }
     
+    /// <summary>
+    /// Refreshes all data: server status, active accounts, closed accounts, clients, and client count.
+    /// </summary>
     private async Task RefreshAll()
     {
         bool online = await tcp.IsServerOnline();
@@ -135,17 +144,9 @@ public class MainViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(ConnectedClientsText));
     }
 
-
+    /// <summary>Raises the PropertyChanged event for UI bindings.</summary>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
     }
 }

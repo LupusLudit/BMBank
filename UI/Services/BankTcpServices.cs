@@ -15,6 +15,10 @@ public class BankTcpServices
         this.port = port;
     }
     
+    /// <summary>
+    /// Checks whether the bank server is online.
+    /// </summary>
+    /// <returns>True if the server is reachable and connected, otherwise false.</returns>
     public async Task<bool> IsServerOnline()
     {
         try
@@ -33,6 +37,10 @@ public class BankTcpServices
         catch { return false; }
     }
     
+    /// <summary>
+    /// Retrieves the number of total clients bank has.
+    /// </summary>
+    /// <returns>The total number of clients, or 0 if the server is unreachable or response is invalid.</returns>
     public async Task<int> GetClientCount()
     {
         try
