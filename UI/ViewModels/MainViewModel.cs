@@ -50,15 +50,6 @@ public class MainViewModel : INotifyPropertyChanged
         }
         
     } 
-    
-    private int clientCount;
-    public string ConnectedClientsText
-    {
-        get
-        {
-            return $"Total bank clients: {clientCount}";
-        }
-    }
 
     /// <summary>
     /// Initializes the ViewModel.
@@ -139,9 +130,6 @@ public class MainViewModel : INotifyPropertyChanged
         {
             return;
         }
-
-        clientCount = await tcp.GetClientCount();
-        OnPropertyChanged(nameof(ConnectedClientsText));
     }
 
     /// <summary>Raises the PropertyChanged event for UI bindings.</summary>
