@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDocumentation>
+    
+    <ClassMembers name="BankTcpServices">
+        <summary>
+            Provides TCP-based services for communicating with the bank server from the UI layer.
+            Supports checking server availability and retrieving runtime information.
+        </summary>
+    </ClassMembers>
+
+    <ClassMembers name="DatabaseService">
+        <summary>
+            Service class responsible for read-only access to the UI database layer.
+            Provides methods to retrieve active accounts, closed accounts,
+            and recent client command activity using SQL Server views.
+            Maintains an open SQL connection for repeated queries.
+        </summary>
+    </ClassMembers>
+
+    <ClassMembers name="AccountInfo">
+        <summary>
+            Data model representing a bank account for UI presentation.
+            Contains basic account information including account number,
+            current balance, creation date, and optional closure date.
+        </summary>
+    </ClassMembers>
+
+    <ClassMembers name="ClientInfo">
+        <summary>
+            Data model representing a single client activity record for the UI.
+            Stores the client IP address, the last executed command with arguments,
+            the execution timestamp, and the resulting status of the command.
+        </summary>
+    </ClassMembers>
+
+    <ClassMembers name="MainViewModel">
+        <summary>
+            Main ViewModel for the UI application implementing the MVVM pattern.
+            Manages server connectivity state, periodic data refresh, and exposes
+            collections of active accounts, closed accounts, and recent client activity for data binding.
+            Coordinates communication with the bank server via TCP services and
+            reads persistent data through the database service.
+        </summary>
+    </ClassMembers>
+
+</ClassDocumentation>
