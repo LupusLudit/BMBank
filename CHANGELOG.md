@@ -128,3 +128,6 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 - The second BMBank release to GitHub after the v.1.0.0 development phase.
 - Class documentation links (to the ClassDocumentation.xml) in both the Server and the UI part of the Application.
 - The technical documentation of the project (genreated TechnicalDocumentation.xml) in both the Server and the UI part of the Application.
+
+### Fixed - 2026-01-28 by Pavel Halík
+- Network discovery to find other banks in network.
