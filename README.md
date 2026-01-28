@@ -130,17 +130,17 @@ Locate `App.config` (`UI.dll.config` in the release) in the root directory.
 
 ## Supported Commands
 
-| Name                     | Code | Call                          | Success Response        | Error Response |
-|--------------------------|------|-------------------------------|-------------------------|----------------|
-| Bank code                | BC   | `BC`                          | `BC <IP>`               | `ER <message>` |
-| Account create           | AC   | `AC`                          | `AC <ACCOUNT>/<IP>`     | `ER <message>` |
-| Account deposit          | AD   | `AD <ACCOUNT>/<IP> <AMOUNT>`  | `AD`                    | `ER <message>` |
-| Account withdrawal       | AW   | `AW <ACCOUNT>/<IP> <AMOUNT>`  | `AW`                    | `ER <message>` |
-| Account balance          | AB   | `AB <ACCOUNT>/<IP>`           | `AB <BALANCE>`          | `ER <message>` |
-| Account remove           | AR   | `AR <ACCOUNT>/<IP>`           | `AR`                    | `ER <message>` |
-| Bank total amount        | BA   | `BA`                          | `BA <AMOUNT>`           | `ER <message>` |
-| Bank number of clients   | BN   | `BN`                          | `BN <COUNT>`            | `ER <message>` |
-| Robbery plan             | RP   | `RP <AMOUNT>`                 | `RP <MESSAGE>`          | `ER <message>` |
+| Name                     | Code | Call                          | Success Response        |
+|--------------------------|------|-------------------------------|-------------------------|
+| Bank code                | BC   | `BC`                          | `BC <IP>`               |
+| Account create           | AC   | `AC`                          | `AC <ACCOUNT>/<IP>`     |
+| Account deposit          | AD   | `AD <ACCOUNT>/<IP> <AMOUNT>`  | `AD`                    |
+| Account withdrawal       | AW   | `AW <ACCOUNT>/<IP> <AMOUNT>`  | `AW`                    |
+| Account balance          | AB   | `AB <ACCOUNT>/<IP>`           | `AB <BALANCE>`          |
+| Account remove           | AR   | `AR <ACCOUNT>/<IP>`           | `AR`                    |
+| Bank total amount        | BA   | `BA`                          | `BA <AMOUNT>`           |
+| Bank number of clients   | BN   | `BN`                          | `BN <COUNT>`            |
+| Robbery plan             | RP   | `RP <AMOUNT>`                 | `RP <MESSAGE>`          |
 
 **Robbery plan** - extension to calculate plan to rob other banks in the same network for selected amount. 
 
