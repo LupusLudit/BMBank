@@ -4,11 +4,11 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountWithdrawCommand"]/*'/>
     public class AccountWithdrawCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "AW";
         public AccountDAO DAO { get; }
-
 
         public AccountWithdrawCommand(AccountDAO dao)
         {

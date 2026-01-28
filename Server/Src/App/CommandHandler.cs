@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App
 {
+    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="CommandHandler"]/*'/>
     public class CommandHandler
     {
         private Dictionary<string, ICommand> commands;

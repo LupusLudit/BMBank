@@ -1,6 +1,7 @@
 ﻿
 namespace BMBank.Src.DatabaseInteraction.Core.DBEntities
 {
+    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="Account"]/*'/>
     public class Account : IDBEntity
     {
         public int ID { get; }

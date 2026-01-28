@@ -4,6 +4,7 @@ using System.Net.Sockets;
 
 namespace BMBank.Src.Network
 {
+    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="Server"]/*'/>
     public class Server
     {
         private TcpListener listener;

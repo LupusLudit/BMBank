@@ -3,6 +3,7 @@ using BMBank.Src.DatabaseInteraction.Core.DAO;
 
 namespace BMBank.Src.App.Commands
 {
+
     public class BankAmountCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "BA";

@@ -4,6 +4,7 @@ using System.Data;
 
 namespace BMBank.Src.DatabaseInteraction.Core.DAO
 {
+    /// <include file='../../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountDAO"]/*'/>
     public class AccountDAO : DAOBase<Account>
     {
         public AccountDAO(SqlConnection connection) : base(connection)
