@@ -4,6 +4,7 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+<<<<<<< HEAD
     /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountWithdrawCommand"]/*'/>
     public class AccountWithdrawCommand : ICommand, IAccountInteractionCommand
     {
@@ -34,32 +35,38 @@ namespace BMBank.Src.App.Commands
         /// - Amount is not a valid long
         /// </exception>
 
+=======
+    public class AccountWithdrawCommand : IAsyncCommand, IAccountInteractionCommand
+    {
+        public string Key => "AW";
+>>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
         public string Execute(string arguments)
         {
-            string[] argumentsParts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (argumentsParts.Length != 2)
-            {
-                throw new FormatException("Invalid format. Usage: AW <account>/<ip> <amount>");
-            }
+            throw new NotImplementedException();
+        }
 
-            string[] accountParts = argumentsParts[0].Split('/');
+        public AccountDAO DAO { get; }
+
+        public AccountWithdrawCommand(AccountDAO dao) => DAO = dao;
+
+        public async Task<string> ExecuteAsync(string arguments, CancellationToken token)
+        {
+            string[] parts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != 2)
+                throw new FormatException("Invalid format. Usage: AW <account>/<ip> <amount>");
+
+            string[] accountParts = parts[0].Split('/');
             if (accountParts.Length != 2)
-            {
                 throw new FormatException("Invalid account format.");
-            }
 
             if (!int.TryParse(accountParts[0], out int accountNumber))
-            {
                 throw new FormatException("Invalid account number.");
-            }
+
             string targetIp = accountParts[1];
-
-            if (!long.TryParse(argumentsParts[1], out long amount))
-            {
+            if (!long.TryParse(parts[1], out long amount))
                 throw new FormatException("Invalid amount.");
-            }
 
-            string? localIp = IPAddressObtainer.GetLocalIPv4Address();
+            string localIp = IPAddressObtainer.GetLocalIPv4Address();
             if (targetIp == localIp)
             {
                 DAO.Withdraw(accountNumber, amount);
@@ -68,7 +75,8 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AW {accountNumber}/{targetIp} {amount}";
-                return BankProxyClient.Forward(targetIp, originalCommand);
+                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
+                       ?? "ER No bank found";
             }
         }
     }

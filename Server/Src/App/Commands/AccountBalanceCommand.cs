@@ -4,45 +4,34 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+<<<<<<< HEAD
     /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountBalanceCommand"]/*'/>
     public class AccountBalanceCommand : ICommand, IAccountInteractionCommand
+=======
+    public class AccountBalanceCommand : IAsyncCommand, IAccountInteractionCommand
+>>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
     {
         public string Key => "AB";
-        public AccountDAO DAO { get; }
-        public AccountBalanceCommand(AccountDAO dao)
-        {
-            DAO = dao;
-        }
-
-        /// <summary>
-        /// Executes the Account Balance command (AB).
-        /// </summary>
-        /// <param name="arguments">
-        /// Command arguments in format ACCOUNT/IP,
-        /// where ACCOUNT is the account number and IP is the target bank address.
-        /// </param>
-        /// <returns>
-        /// Returns the account balance in format "AB BALANCE" if the account is local,
-        /// otherwise returns the response from the remote bank node.
-        /// </returns>
-        /// <exception cref="FormatException">
-        /// Thrown when the arguments are in an invalid format or the account number cannot be parsed.
-        /// </exception>
         public string Execute(string arguments)
         {
-            string[] accountParts = arguments.Trim().Split('/');
-            if (accountParts.Length != 2)
-            {
+            throw new NotImplementedException();
+        }
+
+        public AccountDAO DAO { get; }
+
+        public AccountBalanceCommand(AccountDAO dao) => DAO = dao;
+
+        public async Task<string> ExecuteAsync(string arguments, CancellationToken token)
+        {
+            string[] parts = arguments.Trim().Split('/');
+            if (parts.Length != 2)
                 throw new FormatException("Invalid format. Usage: AB <account>/<ip>");
-            }
 
-            if (!int.TryParse(accountParts[0], out int accountNumber))
-            {
+            if (!int.TryParse(parts[0], out int accountNumber))
                 throw new FormatException("Invalid account number.");
-            }
-            string targetIp = accountParts[1];
 
-            string? localIp = IPAddressObtainer.GetLocalIPv4Address();
+            string targetIp = parts[1];
+            string localIp = IPAddressObtainer.GetLocalIPv4Address();
 
             if (targetIp == localIp)
             {
@@ -52,7 +41,8 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AB {accountNumber}/{targetIp}";
-                return BankProxyClient.Forward(targetIp, originalCommand);
+                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
+                       ?? "ER No bank found";
             }
         }
     }
