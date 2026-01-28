@@ -11,6 +11,7 @@ This project implements a distributed P2P banking system, consisting of:
 
 Each bank runs as an independent node identified by its **IPv4 address**, communicates with other banks over TCP/IP, and stores data in a **Microsoft SQL Server database**.
 
+The latest BMBank release: [v.1.0.1](https://github.com/LupusLudit/BMBank/releases/tag/v.1.0.1).
 
 ## Technologies Used
 

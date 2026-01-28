@@ -12,7 +12,7 @@ public class ClientSession
 {
     private readonly TcpClient client;
     private readonly CommandHandler commandHandler;
-    private const int timeoutInMs = 60000;
+    private const int timeoutInMs = 5000;
     private readonly ClientCommandLogDAO logDao;
 
     public ClientSession(TcpClient client, SqlConnection connection)
