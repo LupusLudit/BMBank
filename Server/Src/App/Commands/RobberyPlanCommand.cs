@@ -4,6 +4,7 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="RobberyPlanCommand"]/*'/>
     public class RobberyPlanCommand : IAsyncCommand
     {
         public string Key => "RP";

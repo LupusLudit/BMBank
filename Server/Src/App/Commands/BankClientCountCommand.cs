@@ -3,6 +3,7 @@ using BMBank.Src.DatabaseInteraction.Core.DAO;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="BankClientCountCommand"]/*'/>
     public class BankClientCountCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "BN";

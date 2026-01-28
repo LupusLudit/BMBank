@@ -20,26 +20,18 @@ namespace BMBank.Src.App.Commands
         {
             string[] parts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
-            {
                 throw new FormatException("Invalid format. Usage: AW <account>/<ip> <amount>");
-            }
 
             string[] accountParts = parts[0].Split('/');
             if (accountParts.Length != 2)
-            {
-                throw new FormatException("Invalid account number.");
-            }
+                throw new FormatException("Invalid account format.");
 
             if (!int.TryParse(accountParts[0], out int accountNumber))
-            {
                 throw new FormatException("Invalid account number.");
-            }
 
             string targetIp = accountParts[1];
             if (!long.TryParse(parts[1], out long amount))
-            {
                 throw new FormatException("Invalid amount.");
-            }
 
             string localIp = IPAddressObtainer.GetLocalIPv4Address();
             if (targetIp == localIp)
@@ -50,14 +42,8 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AW {accountNumber}/{targetIp} {amount}";
-                var result = await BankProxyClient.ForwardAsync(targetIp, originalCommand, token);
-
-                if (result == null)
-                {
-                    return "ER No bank found";
-                }
-
-                return result;
+                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
+                       ?? "ER No bank found";
             }
         }
     }

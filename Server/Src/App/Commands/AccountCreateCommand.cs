@@ -4,6 +4,7 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountCreateCommand"]/*'/>
     public class AccountCreateCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "AC";

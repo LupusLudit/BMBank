@@ -42,10 +42,10 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Bank (total) amount (BA)
 	- Bank number (of clients) (BN)
 
-## [1.1.1] - 2026-01-24 by Michal Bielina
+## [1.0.0] - 2026-01-24 by Michal Bielina
 
 ### Added - 2026-01-24 by Michal Bielina
-- The first BMBank release after the initial development phase to GitHub.
+- The first BMBank release to GitHub after the initial development phase.
 
 ### Added - 2026-01-25 by Pavel Halík
 - Implemented **Essentials Bank Node features**:
@@ -120,3 +120,11 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 - New export for client_command_log table and view_ui_client_activity view.
 - Written README for the project.
 - Written pdf documentation about the project.
+
+## [1.0.1] - 2026-01-28 by Michal Bielina
+
+### Added - 2026-01-28 by Michal Bielina
+
+- The second BMBank release to GitHub after the v.1.0.0 development phase.
+- Class documentation links (to the ClassDocumentation.xml) in both the Server and the UI part of the Application.
+- The technical documentation of the project (genreated TechnicalDocumentation.xml) in both the Server and the UI part of the Application.

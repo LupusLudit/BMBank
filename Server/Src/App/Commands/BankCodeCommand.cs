@@ -3,6 +3,7 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="BankCodeCommand"]/*'/>
     public class BankCodeCommand : ICommand
     {
         public string Key => "BC";

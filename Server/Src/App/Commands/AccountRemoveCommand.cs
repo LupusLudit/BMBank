@@ -1,10 +1,10 @@
 ﻿using BMBank.Src.App.Commands.Interfaces;
 using BMBank.Src.DatabaseInteraction.Core.DAO;
 using BMBank.Src.Network;
-using BookOrg.Src.Logic.Connection;
 
 namespace BMBank.Src.App.Commands
 {
+    /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountRemoveCommand"]/*'/>
     public class AccountRemoveCommand : ICommand, IAccountInteractionCommand
     {
         public string Key => "AR";

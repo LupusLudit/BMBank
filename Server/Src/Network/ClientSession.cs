@@ -7,6 +7,7 @@ using BMBank.Src.DatabaseInteraction.Core.DAO;
 
 namespace BMBank.Src.Network;
 
+/// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="ClientSession"]/*'/>
 public class ClientSession
 {
     private readonly TcpClient client;
