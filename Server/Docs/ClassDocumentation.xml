@@ -207,4 +207,13 @@
 		</summary>
 	</ClassMembers>
 
+	<ClassMembers name="OnDemandNetworkScanner">
+		<summary>
+			On-demand network scanning utility used to discover bank nodes in the P2P network.
+			Attempts to connect to specified IP addresses and a range of TCP ports,
+			queries reachable nodes using the bank protocol,
+			and returns basic information such as total funds and client count.
+		</summary>
+	</ClassMembers>
+	
 </ClassDocumentation>
