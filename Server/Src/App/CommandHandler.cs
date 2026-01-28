@@ -6,6 +6,7 @@ using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App;
 
+/// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="CommandHandler"]/*'/>
 public class CommandHandler
 {
     private readonly Dictionary<string, ICommand> commands;
@@ -40,17 +41,32 @@ public class CommandHandler
     public async Task<string> ProcessCommandAsync(string input, CancellationToken token)
     {
         if (string.IsNullOrWhiteSpace(input))
+        {
             return string.Empty;
-
+        }
+        
         input = input.Trim();
         if (input.Length < 2)
+        {
             throw new FormatException("Input too short");
+        }
 
         string key = input.Substring(0, 2).ToUpper();
-        string args = input.Length > 2 ? input.Substring(2).Trim() : "";
+        string args;
+
+        if (input.Length > 2)
+        {
+            args = input.Substring(2).Trim();
+        }
+        else
+        {
+            args = string.Empty;
+        }
 
         if (!commands.TryGetValue(key, out ICommand? command))
+        {
             throw new InvalidOperationException($"Unknown command: {key}");
+        }
         
         if (command is IAsyncCommand asyncCmd)
         {
