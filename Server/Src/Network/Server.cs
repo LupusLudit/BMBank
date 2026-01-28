@@ -7,7 +7,7 @@ namespace BMBank.Src.Network
     public class Server
     {
         private TcpListener listener;
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource = new();
         private SqlConnection connection;
 
         /// <summary>
@@ -19,8 +19,6 @@ namespace BMBank.Src.Network
         {
             listener = new TcpListener(System.Net.IPAddress.Any, port);
             this.connection = connection;
-
-            cancellationTokenSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -38,23 +36,25 @@ namespace BMBank.Src.Network
                 {
                     TcpClient client = await listener.AcceptTcpClientAsync();
 
-                    await Task.Run(
+                    _ = Task.Run(async 
                         () =>
                         {
-                            ClientSession session = new ClientSession(client, connection);
-                            return session.HandleAsync(cancellationTokenSource.Token);
-                        },
-                        cancellationTokenSource.Token
+                            try
+                            {
+                                ClientSession session = new ClientSession(client, connection);
+                                await session.HandleAsync(cancellationTokenSource.Token);
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.Error($"Session error: {e.Message}");
+                            }
+                        }
                     );
                 }
             }
-            catch (Exception ex) when (cancellationTokenSource.IsCancellationRequested)
+            catch (ObjectDisposedException)
             {
                 Logger.Info("Server stopping...");
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Server encountered an error: {ex.Message}");
             }
         }
 
