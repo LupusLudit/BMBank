@@ -89,7 +89,7 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Display of total number of bank clients.
 	- Server status indicator (ONLINE / OFFLINE).
    	- Live refresh mechanism (periodic refresh every few seconds).
-- Documentation about every class in `ClassDocumentation.xml`.
+- Documentation about every class in `ClassDocumentation.xml` for Server.
 
 ### Added - 2026-01-27 by Pavel Halík
 
@@ -111,6 +111,12 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 	- Ensured standard client commands are logged without modification.
 - Improved client identification:
 	- Differentiation between Admin UI requests and regular client requests without introducing new commands.
-- Documentation for new classes in `ClassDocumentation.xml`.
+- Documentation for new classes in `ClassDocumentation.xml` for Server.
 - Added XML documentation comments for every non-trivial method.
 
+### Added - 2026-01-28 by Pavel Halík
+
+- Documentation for new classes in `ClassDocumentation.xml` for UI.
+- New export for client_command_log table and view_ui_client_activity view.
+- Written README for the project.
+- Written pdf documentation about the project.
