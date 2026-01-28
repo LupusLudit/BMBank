@@ -49,7 +49,7 @@ Each bank runs as an independent node identified by its **IPv4 address**, commun
 ### 1. Database Setup
 
 1. Open **SQL Server Management Studio**
-2. Open the file Sql/setup.sql located in the project repository and execute it.
+2. Open the file Server/Sql/setup.sql located in the project repository and execute it.
 
 The database is required for **both Node and UI**.
 
