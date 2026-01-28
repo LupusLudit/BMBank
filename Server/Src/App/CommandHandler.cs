@@ -6,16 +6,12 @@ using Microsoft.Data.SqlClient;
 
 namespace BMBank.Src.App;
 
+/// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="CommandHandler"]/*'/>
 public class CommandHandler
 {
-<<<<<<< HEAD
-    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="CommandHandler"]/*'/>
-    public class CommandHandler
-=======
     private readonly Dictionary<string, ICommand> commands;
 
     public CommandHandler(SqlConnection connection)
->>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
     {
         AccountDAO dao = new(connection);
 
@@ -56,7 +52,7 @@ public class CommandHandler
 
         if (!commands.TryGetValue(key, out ICommand? command))
             throw new InvalidOperationException($"Unknown command: {key}");
-        
+
         if (command is IAsyncCommand asyncCmd)
         {
             return await SafeExecutor.ExecuteAsync(() => asyncCmd.ExecuteAsync(args, token));

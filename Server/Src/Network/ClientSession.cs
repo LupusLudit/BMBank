@@ -7,19 +7,15 @@ using BMBank.Src.DatabaseInteraction.Core.DAO;
 
 namespace BMBank.Src.Network;
 
+/// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="ClientSession"]/*'/>
 public class ClientSession
 {
-<<<<<<< HEAD
-    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="ClientSession"]/*'/>
-    public class ClientSession
-=======
     private readonly TcpClient client;
     private readonly CommandHandler commandHandler;
     private const int timeoutInMs = 60000;
     private readonly ClientCommandLogDAO logDao;
 
     public ClientSession(TcpClient client, SqlConnection connection)
->>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
     {
         this.client = client;
         commandHandler = new CommandHandler(connection);

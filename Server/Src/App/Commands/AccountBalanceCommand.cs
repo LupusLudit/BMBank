@@ -4,12 +4,8 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
-<<<<<<< HEAD
     /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountBalanceCommand"]/*'/>
-    public class AccountBalanceCommand : ICommand, IAccountInteractionCommand
-=======
     public class AccountBalanceCommand : IAsyncCommand, IAccountInteractionCommand
->>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
     {
         public string Key => "AB";
         public string Execute(string arguments)
@@ -25,10 +21,14 @@ namespace BMBank.Src.App.Commands
         {
             string[] parts = arguments.Trim().Split('/');
             if (parts.Length != 2)
+            {
                 throw new FormatException("Invalid format. Usage: AB <account>/<ip>");
+            }
 
             if (!int.TryParse(parts[0], out int accountNumber))
+            {
                 throw new FormatException("Invalid account number.");
+            }
 
             string targetIp = parts[1];
             string localIp = IPAddressObtainer.GetLocalIPv4Address();
@@ -41,8 +41,7 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AB {accountNumber}/{targetIp}";
-                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
-                       ?? "ER No bank found";
+                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token) ?? "ER No bank found";
             }
         }
     }

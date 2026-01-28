@@ -4,12 +4,8 @@ using BMBank.Src.Network;
 
 namespace BMBank.Src.App.Commands
 {
-<<<<<<< HEAD
     /// <include file='../../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="AccountDepositCommand"]/*'/>
-    public class AccountDepositCommand : ICommand, IAccountInteractionCommand
-=======
     public class AccountDepositCommand : IAsyncCommand, IAccountInteractionCommand
->>>>>>> 48d90d1ccacc2ec931ab9ab9039ef5a2accccd61
     {
         public string Key => "AD";
         public string Execute(string arguments)
@@ -25,18 +21,26 @@ namespace BMBank.Src.App.Commands
         {
             string[] argumentParts = arguments.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (argumentParts.Length != 2)
+            {
                 throw new FormatException("Invalid format. Usage: AD <account>/<ip> <amount>");
+            }
 
             string[] accountParts = argumentParts[0].Split('/');
             if (accountParts.Length != 2)
+            {
                 throw new FormatException("Invalid account format.");
+            }
 
             if (!int.TryParse(accountParts[0], out int accountNumber))
+            {
                 throw new FormatException("Invalid account number.");
+            }
 
             string targetIp = accountParts[1];
             if (!long.TryParse(argumentParts[1], out long amount))
+            {
                 throw new FormatException("Invalid amount.");
+            }
 
             string localIp = IPAddressObtainer.GetLocalIPv4Address();
             if (targetIp == localIp)
@@ -47,8 +51,7 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AD {accountNumber}/{targetIp} {amount}";
-                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
-                       ?? "ER No bank found";
+                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token) ?? "ER No bank found";
             }
         }
     }
