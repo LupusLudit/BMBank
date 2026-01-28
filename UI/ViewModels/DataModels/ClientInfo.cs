@@ -1,9 +1,11 @@
-﻿namespace UI.ViewModels.DataModels;
-
-public class ClientInfo
+﻿namespace UI.ViewModels.DataModels
 {
-    public string Ip { get; set; }
-    public string LastCommand { get; set; }
-    public DateTime Timestamp { get; set; }
-    public string Status { get; set; }
+    /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="ClientInfo"]/*'/>
+    public class ClientInfo
+    {
+        public string Ip { get; set; }
+        public string LastCommand { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string Status { get; set; }
+    }
 }

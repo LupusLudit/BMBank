@@ -45,7 +45,7 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 ## [1.0.0] - 2026-01-24 by Michal Bielina
 
 ### Added - 2026-01-24 by Michal Bielina
-- The first BMBank release after the initial development phase to GitHub.
+- The first BMBank release to GitHub after the initial development phase.
 
 ### Added - 2026-01-25 by Pavel Halík
 - Implemented **Essentials Bank Node features**:
@@ -125,5 +125,6 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ### Added - 2026-01-28 by Michal Bielina
 
-- The second BMBank release after the v.1.0.0 development phase to GitHub.
-- Class documentation links (ClassDocumentation.xml)
+- The second BMBank release to GitHub after the v.1.0.0 development phase.
+- Class documentation links (to the ClassDocumentation.xml) in both the Server and the UI part of the Application.
+- The technical documentation of the project (genreated TechnicalDocumentation.xml) in both the Server and the UI part of the Application.

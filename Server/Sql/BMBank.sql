@@ -30,7 +30,7 @@ create table client_command_log (
     result_status nvarchar(20) not null
 );
 
--- Sequence for issuing new account numbers (10000�99999)
+-- Sequence for issuing new account numbers (10000-99999)
 create sequence account_number_sequence
 as int
 start with 10000 increment by 1

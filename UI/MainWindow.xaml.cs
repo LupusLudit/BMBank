@@ -1,18 +1,20 @@
 ﻿using System.Windows;
 using UI.ViewModels;
 
-namespace UI;
-
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
-public partial class MainWindow : Window
+namespace UI
 {
-    private MainViewModel viewModel;
-    public MainWindow()
+
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-        viewModel = new MainViewModel();
-        DataContext = viewModel;
+        private MainViewModel viewModel;
+        public MainWindow()
+        {
+            InitializeComponent();
+            viewModel = new MainViewModel();
+            DataContext = viewModel;
+        }
     }
 }
