@@ -142,6 +142,8 @@ Locate `App.config` (`UI.dll.config` in the release) in the root directory.
 | Bank number of clients   | BN   | `BN`                          | `BN <COUNT>`            | `ER <message>` |
 | Robbery plan             | RP   | `RP <AMOUNT>`                 | `RP <MESSAGE>`          | `ER <message>` |
 
+**Robbery plan** - extension to calculate plan to rob other banks in the same network for selected amount. 
+
 ## System Workflow
 
 1. Client connects to bank node via TCP
