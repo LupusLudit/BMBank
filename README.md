@@ -172,3 +172,13 @@ Locate `App.config` (`UI.dll.config` in the release) in the root directory.
     - Coordinate TCP + DB access
 
 UI never modifies data directly – all changes go through the bank node.
+
+## Reused past projects
+
+**Pavel Halík**
+- <a href="https://github.com/Forkxel/Quiz-game">Configuration File</a>
+- <a href="https://github.com/Forkxel/Chat-Server">TCP connection</a>
+- <a href="https://github.com/Forkxel/Library-Database-Manager">Database manipulation</a>
+
+**Michal Bielina**
+
