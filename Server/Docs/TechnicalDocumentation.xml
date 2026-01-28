@@ -1,9 +1,208 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>BMBank</name>
+        <name>Server</name>
     </assembly>
     <members>
+        <member name="T:BMBank.Src.App.CommandHandler">
+            <summary>
+			Handles processing of banking commands.
+			Maps command keys to ICommand implementations and executes them,
+			using AccountDAO to interact with accounts stored in the database.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.CommandHandler.ProcessCommandAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Processes a command asynchronously.
+            Supports both synchronous (local) and asynchronous (remote) commands.
+            </summary>
+            <param name="input">The raw command string.</param>
+            <param name="token">Cancellation token to allow timeouts or cancellation.</param>
+            <returns>The result of the command.</returns>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.AccountBalanceCommand">
+            <summary>
+			Command to retrieve the balance of a specific account.
+			Uses AccountDAO for local accounts or forwards the request to another bank node in the network.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.AccountBalanceCommand.ExecuteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Executes the account balance command asynchronously.
+            </summary>
+            <param name="arguments">
+            Command arguments in format: ACCOUNT/IP.
+            </param>
+            <param name="token">Cancellation token.</param>
+            <returns>
+            A string containing the account balance or an error message.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown when the argument format or account number is invalid.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.AccountCreateCommand">
+            <summary>
+			Command to create a new account in the database.
+			Uses AccountDAO to generate the account and returns the new account number with the local IP.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.AccountCreateCommand.Execute(System.String)">
+            <summary>
+            Executes the Account Create command (AC).
+            </summary>
+            <param name="arguments">
+            This command does not accept any arguments.
+            </param>
+            <returns>
+            Returns the newly created account identifier in format "AC ACCOUNT/IP",
+            where ACCOUNT is the new account number and IP is the local bank node address.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the local IP address cannot be determined.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.AccountDepositCommand">
+            <summary>
+			Command to deposit a specified amount into an account.
+			Uses AccountDAO for local accounts or forwards the deposit request to another bank node in the network.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.AccountDepositCommand.ExecuteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Executes the account deposit command asynchronously.
+            </summary>
+            <param name="arguments">
+            Command arguments in format: AD ACCOUNT/IP AMOUNT.
+            </param>
+            <param name="token">Cancellation token.</param>
+            <returns>
+            A confirmation string or an error message.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown when the argument format, account number, or amount is invalid.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.AccountRemoveCommand">
+            <summary>
+			Command to remove an account from the database.
+			Uses AccountDAO and only allows removal of local accounts based on the local IP.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.AccountRemoveCommand.Execute(System.String)">
+            <summary>
+            Executes the Account Remove command (AR).
+            </summary>
+            <param name="arguments">
+            Command arguments in format ACCOUNT/IP,
+            where ACCOUNT is the account number and IP is the target bank address.
+            </param>
+            <returns>
+            Returns "AR" when the account is successfully removed from the local bank.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown when the arguments are in an invalid format or the account number cannot be parsed.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown when the provided IP address does not match the local bank node.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.AccountWithdrawCommand">
+            <summary>
+			Command to withdraw a specified amount from an account.
+			Uses AccountDAO for local accounts or forwards the withdrawal request to another bank node in the network.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.AccountWithdrawCommand.ExecuteAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Executes the account withdraw command asynchronously.
+            </summary>
+            <param name="arguments">
+            Command arguments in format: AW ACCOUNT/IP AMOUNT.
+            </param>
+            <param name="token">Cancellation token.</param>
+            <returns>
+            A confirmation string or an error message.
+            </returns>
+            <exception cref="T:System.FormatException">
+            Thrown when the argument format, account number, or amount is invalid.
+            </exception>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.BankAmountCommand.Execute(System.String)">
+            <summary>
+            Executes the Bank Amount command (BA).
+            </summary>
+            <param name="arguments">
+            BA command takes no arguments.
+            </param>
+            <returns>
+            Returns the total amount of money in the bank as "BA TOTAL".
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if any arguments are provided to the BA command.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.BankClientCountCommand">
+            <summary>
+			Command to retrieve the total number of clients in the bank.
+			Uses AccountDAO to count all accounts stored in the database.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.BankClientCountCommand.Execute(System.String)">
+            <summary>
+            Executes the Bank Client Count command (BN).
+            </summary>
+            <param name="arguments">
+            BN command takes no arguments.
+            </param>
+            <returns>
+            Returns the number of clients connected to the bank as "BN COUNT".
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if any arguments are provided to the BN command.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.BankCodeCommand">
+            <summary>
+			Command to retrieve the local IPv4 address of the bank node.
+			Returns the address as the bank code and takes no arguments.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.App.Commands.BankCodeCommand.Execute(System.String)">
+            <summary>
+            Executes the Bank Code command (BC).
+            </summary>
+            <param name="arguments">
+            BC command does not take any arguments.
+            </param>
+            <returns>
+            Returns the local IP address of the host as "BC IP_ADDRESS".
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if any arguments are provided to the BC command.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if no local IP address could be determined for the host.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.Interfaces.IAccountInteractionCommand">
+            <summary>
+			Interface for commands that interact with bank accounts.
+		</summary>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.Interfaces.ICommand">
+            <summary>
+			Interface representing a bank command.
+			Each command has a unique Key and can be executed with a string of arguments.
+		</summary>
+        </member>
+        <member name="T:BMBank.Src.App.Commands.RobberyPlanCommand">
+            <summary>
+			Command to compute a robbery plan across the bank P2P network.
+			Discovers other banks, gathers their total funds and client counts,
+			and selects a subset of banks to reach a target amount within a time limit.
+		</summary>
+        </member>
         <member name="T:BMBank.Src.Common.Logger">
             <summary>
 			Static class used for thread-safe logging.
@@ -63,6 +262,85 @@
             The formatted error message (string).
             </returns>
         </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO">
+            <summary>
+			Data Access Object for bank accounts.
+			Provides methods to create accounts, deposit, withdraw, retrieve balances,
+			remove accounts, and get bank-wide totals using SQL Server stored procedures and views.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.CreateAccount">
+            <summary>
+            Creates a new account in the database.
+            </summary>
+            <returns>The account number of the newly created account.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the account number could not be retrieved after creation.
+            </exception>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.Deposit(System.Int32,System.Int64)">
+            <summary>
+            Deposits a specified amount into a given account.
+            </summary>
+            <param name="accountNumber">The account number to deposit into.</param>
+            <param name="amount">The amount to deposit.</param>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.Withdraw(System.Int32,System.Int64)">
+            <summary>
+            Withdraws a specified amount from a given account.
+            </summary>
+            <param name="accountNumber">The account number to withdraw from.</param>
+            <param name="amount">The amount to withdraw.</param>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.GetBalance(System.Int32)">
+            <summary>
+            Retrieves the balance of a specified account.
+            </summary>
+            <param name="accountNumber">The account number to query.</param>
+            <returns>The current balance of the account.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if the account is not found.</exception>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.RemoveAccount(System.Int32)">
+            <summary>
+            Removes the specified account from the database.
+            </summary>
+            <param name="accountNumber">The account number to remove.</param>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.GetTotalAmount">
+            <summary>
+            Retrieves the total sum of money across all accounts in the bank.
+            </summary>
+            <returns>Total amount in the bank.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the total amount cannot be retrieved.
+            </exception>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.AccountDAO.GetClientCount">
+            <summary>
+            Retrieves the total number of clients in the bank.
+            </summary>
+            <returns>Total client count.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the client count cannot be retrieved.
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DAO.ClientCommandLogDAO">
+            <summary>
+			Data Access Object responsible for logging client commands executed on the bank server.
+			Inserts command execution records into the client_command_log table
+			and maintains only the most recent log entries by performing automatic cleanup.
+			Uses database transactions to ensure atomicity of insert and cleanup operations.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.DatabaseInteraction.Core.DAO.ClientCommandLogDAO.Insert(System.String,System.String,System.String,System.String)">
+            <summary>
+            Inserts a new client command log into the database and ensures only the latest 50 logs are kept.
+            </summary>
+            <param name="ip">The IP address of the client.</param>
+            <param name="clientCommand">The command key (e.g., "AB", "BN").</param>
+            <param name="arguments">The arguments passed with the command.</param>
+            <param name="resultStatus">The result status of the command ("OK" or "ERROR").</param>
+        </member>
         <member name="T:BMBank.Src.DatabaseInteraction.Core.DAO.DAOBase`1">
             <summary>
 			Abstract base class for Data Access Objects.
@@ -75,6 +353,18 @@
             </summary>
             <param name="query">The SQL query string.</param>
             <returns>A configured SqlCommand object.</returns>
+        </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DBEntities.Account">
+            <summary>
+			Represents a bank account entity stored in the database.
+			Contains account number, balance, status, creation date, and optional closure date.
+		</summary>
+        </member>
+        <member name="T:BMBank.Src.DatabaseInteraction.Core.DBEntities.ClientCommandLog">
+            <summary>
+			Represents a log entry for a command executed by a client on the bank server.
+			Stores the client IP, executed command, arguments, result status, and timestamp.
+		</summary>
         </member>
         <member name="T:BMBank.Src.DatabaseInteraction.Core.DBEntities.IDBEntity">
             <summary>
@@ -94,6 +384,121 @@
             If it is set to zero, it indicates that the entity has not yet
             been added to the database and that it will be assigned a valid ID upon insertion.
             </remarks>>
+        </member>
+        <member name="T:BMBank.Src.Network.BankNetworkExplorer">
+            <summary>
+			Static utility class to discover other banks in the P2P network.
+			Provides methods to generate IP addresses of potential bank nodes and structure their info.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Network.BankNetworkExplorer.DiscoverBanks">
+            <summary>
+            Discovers all possible bank IP addresses based on the configured network prefix.
+            </summary>
+            <returns>
+            An enumerable of strings representing possible bank IP addresses.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if the network prefix from is not in a valid format (1–3 octets).
+            </exception>
+        </member>
+        <member name="T:BMBank.Src.Network.BankNetworkExplorer.BankInfo">
+            <summary>
+            Represents information about a bank node.
+            </summary>
+            <param name="Ip">The IP address of the bank.</param>
+            <param name="Money">The total money held by the bank.</param>
+            <param name="Clients">The number of clients in the bank.</param>
+        </member>
+        <member name="M:BMBank.Src.Network.BankNetworkExplorer.BankInfo.#ctor(System.String,System.Int64,System.Int32)">
+            <summary>
+            Represents information about a bank node.
+            </summary>
+            <param name="Ip">The IP address of the bank.</param>
+            <param name="Money">The total money held by the bank.</param>
+            <param name="Clients">The number of clients in the bank.</param>
+        </member>
+        <member name="P:BMBank.Src.Network.BankNetworkExplorer.BankInfo.Ip">
+            <summary>The IP address of the bank.</summary>
+        </member>
+        <member name="P:BMBank.Src.Network.BankNetworkExplorer.BankInfo.Money">
+            <summary>The total money held by the bank.</summary>
+        </member>
+        <member name="P:BMBank.Src.Network.BankNetworkExplorer.BankInfo.Clients">
+            <summary>The number of clients in the bank.</summary>
+        </member>
+        <member name="T:BMBank.Src.Network.BankProxyClient">
+            <summary>
+			Static class responsible for forwarding commands to other bank nodes in the P2P network.
+			Scans a range of TCP ports, establishes connections, and safely sends/receives commands with timeouts.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Network.BankProxyClient.ForwardAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Forwards a command to a remote bank node.
+            </summary>
+            <param name="targetIp">The target bank IP address.</param>
+            <param name="command">The command to forward.</param>
+            <returns>
+            The response from the remote bank node, or "ER No bank found" if no node responded.
+            </returns>
+        </member>
+        <member name="T:BMBank.Src.Network.ClientSession">
+            <summary>
+			Represents a network session with a connected client.
+			Receives and processes commands asynchronously using CommandHandler,
+			handles timeouts, and logs all session activity.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Network.ClientSession.HandleAsync(System.Threading.CancellationToken)">
+            <summary>
+            Handles the lifecycle of a client session asynchronously.
+            </summary>
+            <param name="serverToken">
+            Cancellation token used to signal server shutdown.
+            </param>
+            <returns>A task representing the asynchronous session operation.</returns>
+        </member>
+        <member name="T:BMBank.Src.Network.IPAddressObtainer">
+            <summary>
+			Represents a network session with a connected client.
+			Receives and processes commands asynchronously using CommandHandler,
+			handles timeouts, and logs all session activity.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Network.IPAddressObtainer.GetLocalIPv4Address">
+            <summary>
+            Obtains the local IPv4 address.
+            </summary>
+            <returns>
+            The IP address found; or null if no address was found.
+            </returns>
+        </member>
+        <member name="T:BMBank.Src.Network.NetworkConfig">
+            <summary>
+			Static class providing network configuration settings for the bank P2P network.
+			Retrieves port range and network prefix from application configuration.
+		</summary>
+        </member>
+        <member name="T:BMBank.Src.Network.Server">
+            <summary>
+			Represents the TCP server for the bank application.
+			Listens for incoming client connections, creates ClientSession instances,
+			and handles start/stop operations with proper logging and cancellation support.
+		</summary>
+        </member>
+        <member name="M:BMBank.Src.Network.Server.#ctor(System.Int32,Microsoft.Data.SqlClient.SqlConnection)">
+            <summary>
+            Initializes a new instance of the Server class.
+            </summary>
+            <param name="port">The TCP port on which the server will listen for connections.</param>
+            <param name="connection">The SQL connection used for database interactions.</param>
+        </member>
+        <member name="M:BMBank.Src.Network.Server.StartAsync">
+            <summary>
+            Starts the server and begins accepting client connections asynchronously.
+            Each connection is handled in a separate task with a ClientSession.
+            </summary>
         </member>
         <member name="T:BookOrg.Src.Logic.Connection.IConnectionFactory">
             <summary>

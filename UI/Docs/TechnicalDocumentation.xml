@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UI</name>
+    </assembly>
+    <members>
+        <member name="T:UI.App">
+            <summary>
+            Interaction logic for App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:UI.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:UI.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:UI.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:UI.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:UI.BankTcpServices">
+            <summary>
+            Provides TCP-based services for communicating with the bank server from the UI layer.
+            Supports checking server availability and retrieving runtime information.
+        </summary>
+        </member>
+        <member name="M:UI.BankTcpServices.IsServerOnline">
+            <summary>
+            Checks whether the bank server is online.
+            </summary>
+            <returns>True if the server is reachable and connected, otherwise false.</returns>
+        </member>
+        <member name="M:UI.BankTcpServices.GetClientCount">
+            <summary>
+            Retrieves the number of total clients bank has.
+            </summary>
+            <returns>The total number of clients, or 0 if the server is unreachable or response is invalid.</returns>
+        </member>
+        <member name="T:UI.Services.DatabaseService">
+            <summary>
+            Service class responsible for read-only access to the UI database layer.
+            Provides methods to retrieve active accounts, closed accounts,
+            and recent client command activity using SQL Server views.
+            Maintains an open SQL connection for repeated queries.
+        </summary>
+        </member>
+        <member name="M:UI.Services.DatabaseService.GetActiveAccounts">
+            <summary>
+            Retrieves all active bank accounts from the database.
+            </summary>
+            <returns>An enumerable of AccountInfo for active accounts.</returns>
+            <exception cref="T:Microsoft.Data.SqlClient.SqlException">Thrown if the query execution fails.</exception>
+        </member>
+        <member name="M:UI.Services.DatabaseService.GetClosedAccounts">
+            <summary>
+            Retrieves all closed bank accounts from the database.
+            </summary>
+            <returns>An enumerable of AccountInfo for closed accounts, including the closing date.</returns>
+            <exception cref="T:Microsoft.Data.SqlClient.SqlException">Thrown if the query execution fails.</exception>
+        </member>
+        <member name="M:UI.Services.DatabaseService.GetClientInformation">
+            <summary>
+            Retrieves information about the last 20 client commands from the database.
+            </summary>
+            <returns>An enumerable of ClientInfo containing client IP, last command, timestamp, and result status.</returns>
+            <exception cref="T:Microsoft.Data.SqlClient.SqlException">Thrown if the query execution fails.</exception>
+        </member>
+        <member name="T:UI.ViewModels.DataModels.AccountInfo">
+            <summary>
+            Data model representing a bank account for UI presentation.
+            Contains basic account information including account number,
+            current balance, creation date, and optional closure date.
+        </summary>
+        </member>
+        <member name="T:UI.ViewModels.DataModels.ClientInfo">
+            <summary>
+            Data model representing a single client activity record for the UI.
+            Stores the client IP address, the last executed command with arguments,
+            the execution timestamp, and the resulting status of the command.
+        </summary>
+        </member>
+        <member name="T:UI.ViewModels.MainViewModel">
+            <summary>
+            Main ViewModel for the UI application implementing the MVVM pattern.
+            Manages server connectivity state, periodic data refresh, and exposes
+            collections of active accounts, closed accounts, and recent client activity for data binding.
+            Coordinates communication with the bank server via TCP services and
+            reads persistent data through the database service.
+        </summary>
+        </member>
+        <member name="M:UI.ViewModels.MainViewModel.#ctor">
+            <summary>
+            Initializes the ViewModel.
+            Sets up TCP connection, database service, and starts a timer for automatic data refresh every 3 seconds.
+            </summary>
+            <exception cref="T:Microsoft.Data.SqlClient.SqlException">Thrown if the database connection cannot be opened.</exception>
+            <exception cref="T:System.FormatException">Thrown if the server port in the configuration is invalid.</exception>
+        </member>
+        <member name="M:UI.ViewModels.MainViewModel.RefreshAll">
+            <summary>
+            Refreshes all data: server status, active accounts, closed accounts, clients, and client count.
+            </summary>
+        </member>
+        <member name="M:UI.ViewModels.MainViewModel.OnPropertyChanged(System.String)">
+            <summary>Raises the PropertyChanged event for UI bindings.</summary>
+        </member>
+    </members>
+</doc>

@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <GenerateDocumentationFile>False</GenerateDocumentationFile>
+        <DocumentationFile>C:\Users\micha\Projects\school\pv\c#\c4a\special\projects\BMBank\UI\Docs\TechnicalDocumentation.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

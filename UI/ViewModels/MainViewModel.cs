@@ -84,7 +84,7 @@ namespace UI.ViewModels
             string login = ConfigurationManager.AppSettings["Login"];
             string password = ConfigurationManager.AppSettings["Password"];
 
-            var conn = new SqlConnection($"Server={dataSource};Database={database};User Id={login};Password={password};TrustServerCertificate=True");
+            var conn = new SqlConnection($"Server={dataSource};Database={database};User Id={login};Password={password};TrustServerCertificate=True;"); // Add "Trusted_Connection=True;" for local testing
 
             db = new DatabaseService(conn);
 
