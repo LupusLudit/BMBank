@@ -200,5 +200,11 @@
 			Each command has a unique Key and can be executed with a string of arguments.
 		</summary>
 	</ClassMembers>
+	
+	<ClassMembers name="IAsyncCommand">
+		<summary>
+			Interface representing a bank command that can access different banks.
+		</summary>
+	</ClassMembers>
 
 </ClassDocumentation>

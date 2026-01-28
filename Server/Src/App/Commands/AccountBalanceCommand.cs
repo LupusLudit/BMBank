@@ -14,16 +14,36 @@ namespace BMBank.Src.App.Commands
 
         public AccountDAO DAO { get; }
 
-        public AccountBalanceCommand(AccountDAO dao) => DAO = dao;
+        public AccountBalanceCommand(AccountDAO dao)
+        {
+            DAO = dao;
+        } 
 
+        /// <summary>
+        /// Executes the account balance command asynchronously.
+        /// </summary>
+        /// <param name="arguments">
+        /// Command arguments in format: ACCOUNT/IP.
+        /// </param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>
+        /// A string containing the account balance or an error message.
+        /// </returns>
+        /// <exception cref="FormatException">
+        /// Thrown when the argument format or account number is invalid.
+        /// </exception>
         public async Task<string> ExecuteAsync(string arguments, CancellationToken token)
         {
             string[] parts = arguments.Trim().Split('/');
             if (parts.Length != 2)
+            {
                 throw new FormatException("Invalid format. Usage: AB <account>/<ip>");
+            }
 
             if (!int.TryParse(parts[0], out int accountNumber))
-                throw new FormatException("Invalid account number.");
+            {
+                 throw new FormatException("Invalid account number.");
+            }
 
             string targetIp = parts[1];
             string localIp = IPAddressObtainer.GetLocalIPv4Address();
@@ -36,8 +56,15 @@ namespace BMBank.Src.App.Commands
             else
             {
                 string originalCommand = $"AB {accountNumber}/{targetIp}";
-                return await BankProxyClient.ForwardAsync(targetIp, originalCommand, token)
-                       ?? "ER No bank found";
+                var result = await BankProxyClient.ForwardAsync(targetIp, originalCommand, token);
+
+                if (result == null)
+                {
+                    return "ER No bank found";
+                }
+
+                return result;
+
             }
         }
     }

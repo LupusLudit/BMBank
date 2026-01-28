@@ -21,6 +21,13 @@ public class ClientSession
         logDao = new ClientCommandLogDAO(connection);
     }
 
+    /// <summary>
+    /// Handles the lifecycle of a client session asynchronously.
+    /// </summary>
+    /// <param name="serverToken">
+    /// Cancellation token used to signal server shutdown.
+    /// </param>
+    /// <returns>A task representing the asynchronous session operation.</returns>
     public async Task HandleAsync(CancellationToken serverToken)
     {
         string? clientIp = client.Client.RemoteEndPoint?.ToString();
@@ -89,7 +96,16 @@ public class ClientSession
                 if (!isUiRequest)
                 {
                     string commandKey = request.Substring(0, 2).ToUpper();
-                    string arguments = request.Length > 2 ? request.Substring(2).Trim() : "";
+                    string arguments;
+
+                    if (request.Length > 2)
+                    {
+                        arguments = request.Substring(2).Trim();
+                    }
+                    else
+                    {
+                        arguments = string.Empty;
+                    }
 
                     try
                     {

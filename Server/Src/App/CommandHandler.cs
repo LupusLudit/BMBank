@@ -40,17 +40,23 @@ public class CommandHandler
     public async Task<string> ProcessCommandAsync(string input, CancellationToken token)
     {
         if (string.IsNullOrWhiteSpace(input))
+        {
             return string.Empty;
-
+        }
+        
         input = input.Trim();
         if (input.Length < 2)
+        {
             throw new FormatException("Input too short");
-
+        }
+        
         string key = input.Substring(0, 2).ToUpper();
         string args = input.Length > 2 ? input.Substring(2).Trim() : "";
 
         if (!commands.TryGetValue(key, out ICommand? command))
+        {
             throw new InvalidOperationException($"Unknown command: {key}");
+        }
         
         if (command is IAsyncCommand asyncCmd)
         {
