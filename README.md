@@ -11,7 +11,7 @@ This project implements a distributed P2P banking system, consisting of:
 
 Each bank runs as an independent node identified by its **IPv4 address**, communicates with other banks over TCP/IP, and stores data in a **Microsoft SQL Server database**.
 
-The latest BMBank release: [v.1.0.1](https://github.com/LupusLudit/BMBank/releases/tag/v.1.0.1).
+The latest BMBank release: [v.1.0.2](https://github.com/LupusLudit/BMBank/releases/tag/v1.0.2).
 
 ## Technologies Used
 
@@ -182,3 +182,5 @@ UI never modifies data directly – all changes go through the bank node.
 
 **Michal Bielina**
 
+- <a href="https://github.com/LupusLudit/LIMS"></a>
+- <a href="https://github.com/LupusLudit/BookOrg-D1"></a>

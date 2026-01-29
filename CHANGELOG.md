@@ -131,3 +131,8 @@ GitHub repository to this project can be found at: [BMBank](https://github.com/L
 
 ### Fixed - 2026-01-28 by Pavel Halík
 - Network discovery to find other banks in network.
+
+## [1.0.2] - 2026-01-29 by Michal Bielina
+
+### Fixed
+- Static file paths in .csproj files

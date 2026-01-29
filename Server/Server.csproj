@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <DocumentationFile>C:\Users\micha\Projects\school\pv\c#\c4a\special\projects\BMBank\Server\Docs\TechnicalDocumentation.xml</DocumentationFile>
+    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
