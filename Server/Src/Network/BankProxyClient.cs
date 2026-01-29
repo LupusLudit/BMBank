@@ -1,4 +1,4 @@
-﻿using System.Net.Sockets;
+using System.Net.Sockets;
 using System.Text;
 
 namespace BMBank.Src.Network
@@ -6,7 +6,7 @@ namespace BMBank.Src.Network
     /// <include file='../../Docs/ClassDocumentation.xml' path='ClassDocumentation/ClassMembers[@name="BankProxyClient"]/*'/>
     public static class BankProxyClient
     {
-        private const int Timeout = 60000;
+        private const int Timeout = 5000;
 
         /// <summary>
         /// Forwards a command to a remote bank node.
