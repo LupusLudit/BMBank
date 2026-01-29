@@ -182,5 +182,5 @@ UI never modifies data directly – all changes go through the bank node.
 
 **Michal Bielina**
 
-- <a href="https://github.com/LupusLudit/LIMS"></a>
-- <a href="https://github.com/LupusLudit/BookOrg-D1"></a>
+- <a href="https://github.com/LupusLudit/LIMS">LIMS</a>
+- <a href="https://github.com/LupusLudit/BookOrg-D1">BookOrg</a>
